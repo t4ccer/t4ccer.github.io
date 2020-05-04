@@ -38,7 +38,14 @@ To create AI I used <a href="https://en.wikipedia.org/wiki/Neuroevolution_of_aug
 <p>Training progress:</p>
 <p><img src="/img/DashAI/progress2.png" alt="Progress1"></p>
 <p>If you want to see how everything is implemented or even add something from yourself source code is available <a href="https://github.com/t4ccer/DashAI">here</a> (binaries are also available there)</p>
-<h3 id="how-to-create-own-map">How to create own map:</h3>
+<h3 id="program-usage">Program usage:</h3>
+<pre><code>DashAI OPTIONS
+OPTIONS:
+  -t Train network
+  -p Play already trained network
+  -m &lt;filename.bmp&gt; Map file (defaulf: Map.bmp)
+  -e &lt;name&gt; Experiment name (defaulf: foobar)
+</code></pre><h3 id="how-to-create-own-map">How to create own map:</h3>
 <p>When creating own map squares colors must be exactly for</p>
 <ul>
 <li>Black(ground) - #000000</li>
