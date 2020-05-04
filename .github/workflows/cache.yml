@@ -13,4 +13,3 @@ jobs:
         with:
           CLOUDFLARE_ZONE: ${{secrets.CLOUDFLARE_ZONE_ID}}
           CLOUDFLARE_TOKEN: ${{secrets.CLOUDFLARE_API_KEY}}
-          CLOUDFLARE_EMAIL: t4ccer@gmail.com
