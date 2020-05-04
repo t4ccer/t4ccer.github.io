@@ -8,9 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-       - name: Purge cache
-         uses: 3stacks/cloudflare-purge-cache-action@1.0.1
-         with:
+      - name: Cloudflare Purge Cache Action
+        uses: 3stacks/cloudflare-purge-cache-action@v1.0.6
+        with:
           authToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           siteName: t4ccer.com
           authEmail: t4ccer@gmail.com
