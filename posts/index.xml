@@ -43,8 +43,6 @@ To create AI I used <a href="https://en.wikipedia.org/wiki/Neuroevolution_of_aug
 OPTIONS:
   -t Train network
   -p Play already trained network
-  -m &lt;filename.bmp&gt; Map file (defaulf: Map.bmp)
-  -e &lt;name&gt; Experiment name (defaulf: foobar)
 </code></pre><h3 id="how-to-create-own-map">How to create own map:</h3>
 <p>When creating own map squares colors must be exactly for</p>
 <ul>
