@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>t4ccer</title>
-    <link>/</link>
+    <link>t4ccer.com/</link>
     <description>Recent content on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Sun, 26 Apr 2020 23:33:39 +0200</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="t4ccer.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>DashAI - Geometry Dash AI using NEAT</title>
-      <link>/posts/dashai-geometry-dash-ai-using-neat/</link>
+      <link>t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</link>
       <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/dashai-geometry-dash-ai-using-neat/</guid>
+      <guid>t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</guid>
       <description>Geometry Dash is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.
 You can stand on black tiles, red tiles kill. Simple. To create AI I used NEAT algorithm using sharpneat library. Neural network as input takes 7x7 tiles in front of player(picture below) and output is only one, jump or not.</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>/about/</link>
+      <link>t4ccer.com/about/</link>
       <pubDate>Sun, 26 Apr 2020 23:33:39 +0200</pubDate>
       
-      <guid>/about/</guid>
+      <guid>t4ccer.com/about/</guid>
       <description>Contact me using:
  Email Twitter Github  Blog is using awesome theme created by rhazdon, and modified by me.</description>
     </item>
