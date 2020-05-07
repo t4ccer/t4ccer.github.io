@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Fri, 01 May 2020 11:39:44 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 11:39:44 +0200</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>AI</title>
       <link>/tags/ai/</link>
-      <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
+      <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
       <guid>/tags/ai/</guid>
       <description></description>
@@ -24,9 +24,18 @@
     <item>
       <title>NEAT</title>
       <link>/tags/neat/</link>
-      <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
+      <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
       <guid>/tags/neat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
       <description></description>
     </item>
     
