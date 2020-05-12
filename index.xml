@@ -13,7 +13,19 @@
     
     
     <item>
-      <title>SharpNEAT tutorial</title>
+      <title>Dister32 - Part 1</title>
+      <link>/posts/dister32-part1/</link>
+      <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/dister32-part1/</guid>
+      <description>Introduction Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller ESP32. ESP32 has built-in wifi module so communication between modules will be fairly simple.
+ESP-32s module
+The article will be split into 3 parts.
+In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me.</description>
+    </item>
+    
+    <item>
+      <title>SharpNEAT Tutorial</title>
       <link>/posts/sharpneat-tutorial/</link>
       <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       

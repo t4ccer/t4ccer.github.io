@@ -6,11 +6,62 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Thu, 07 May 2020 11:39:44 +0200</lastBuildDate>
+        <lastBuildDate>Tue, 12 May 2020 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
-            <title>SharpNEAT tutorial</title>
+            <title>Dister32 - Part 1</title>
+            <link>/posts/dister32-part1/</link>
+            <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/dister32-part1/</guid>
+            <description>Introduction Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller ESP32. ESP32 has built-in wifi module so communication between modules will be fairly simple.
+ESP-32s module
+The article will be split into 3 parts.
+In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me.</description>
+            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
+<p>Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller <a href="https://www.espressif.com/en/products/socs/esp32/overview">ESP32</a>. ESP32 has built-in wifi module so communication between modules will be fairly simple.</p>
+<p><img src="/img/esp32.png" alt="ESP32">
+ESP-32s module</p>
+<p>The article will be split into 3 parts.<br>
+In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me. And last, third part will describe finished project and then I will publish sourcecode for nodes, master, and dashboard. Also in the last part, I will provide all necessary instructions to create own ESP32 cluster.</p>
+<p>At first, let me explain some concepts:</p>
+<ul>
+<li>Node - is an esp32 module connected to MQTT broker.</li>
+<li>Master - is a server connected to MQTT broker that manages nodes and images.</li>
+<li>Image - is a compiled, binary program for node.</li>
+<li>Pool - is a group of nodes running the same image.</li>
+</ul>
+<p>Cluster will work using <a href="http://mqtt.org/">MQTT</a> protocole to communicate with master server, and json to serialize data.</p>
+<h3 id="node">Node</h3>
+<p>Node is ESP32 microcontroller that runs dister32-compatible image. Each node is connected to mqtt broker via WiFi. Name of node is its MAC address without colons. Each node is described by its name, IP address, status (<code>OK</code>/<code>Error</code>/<code>Uploading</code>) and current image. Also, each node is running <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/ota.html">OTA</a> mechanism, therefore, its possible to update its firmware wirelessly.</p>
+<h3 id="master">Master</h3>
+<p>Master server manages nodes and pools. Master also provides HTTP REST API so it&rsquo;s easy to create a web dashboard(I&rsquo;ll try to create it soon).</p>
+<h3 id="pool">Pool</h3>
+<p>Pool has assigned image, nodes and count of active nodes. Master is making that exactly <code>count of active nodes</code> nodes will run assigned image. The rest of nodes will be inactive and ready to work if any of running node disconnects.</p>
+<h3 id="features">Features</h3>
+<ul>
+<li>
+<p>Welcome messages. Node on boot sends its properties(name, image, etc) with topic <code>dister32/NODE_NAME/welcome</code>. The same message is sent when node receives message with topic <code>dister32/NODE_NAME/introduce</code>.</p>
+</li>
+<li>
+<p>Heartbeat. Master every <code>delay</code> milliseconds  sends message with topic <code>dister32/master/heartbeat/request</code>. Each node has to respond with <code>dister32/NODE_NAME/heartbeat/response</code>. If doesn&rsquo;t after <code>2*delay</code> ms its status is changed to <code>Error</code>. If master receives response from node that is not registered in cluster, master sends <code>dister32/NODE_NAME/introduce</code> message to get info about this node.</p>
+</li>
+<li>
+<p>LED control. ESP32 has built-in LED so let&rsquo;s use it. Node can be in one of 3 states(<code>On</code>/<code>Off</code>/<code>Blink</code>). When node receives message <code>dister32/NODE_NAME/led</code> with content corresponding  to LED mode, it changes its led to that mode.</p>
+</li>
+</ul>
+<h3 id="pcb">PCB</h3>
+<p>To easily stack multiple ESP32 nodes I designed simple PCB, with power connectors and female goldpins for esp module. I designed PCB using <a href="https://easyeda.com/">EasyEDA</a> software and ordered on <a href="https://jlcPCB.com/">JLCPCB</a>. PCB is 6x6cm with 3mm holes on each corner, with 5mm from edge to center of the hole.</p>
+<p><img src="/img/pcb1.png" alt="PCB"></p>
+<p>I will publish the next part when PCBs arrive at me(it can take a little, I live in Europe).</p>
+<p>If you want, for any reason, create your own cluster, I will publish all gerber files, source code, schematics, and tutorials when I publish the last part.</p>
+<p>Note: Project is made just for fun, do not use in any serious environment.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>SharpNEAT Tutorial</title>
             <link>/posts/sharpneat-tutorial/</link>
             <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
             
