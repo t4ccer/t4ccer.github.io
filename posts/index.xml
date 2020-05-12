@@ -21,7 +21,7 @@ The article will be split into 3 parts.
 In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me.</description>
             <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
 <p>Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller <a href="https://www.espressif.com/en/products/socs/esp32/overview">ESP32</a>. ESP32 has built-in wifi module so communication between modules will be fairly simple.</p>
-<p><img src="/img/esp32.png" alt="ESP32">
+<p><img src="/img/Dister32_1/esp32.png" alt="ESP32">
 ESP-32s module</p>
 <p>The article will be split into 3 parts.<br>
 In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me. And last, third part will describe finished project and then I will publish sourcecode for nodes, master, and dashboard. Also in the last part, I will provide all necessary instructions to create own ESP32 cluster.</p>
@@ -53,7 +53,7 @@ In the first part, I will describe how the cluster will work and implement the s
 </ul>
 <h3 id="pcb">PCB</h3>
 <p>To easily stack multiple ESP32 nodes I designed simple PCB, with power connectors and female goldpins for esp module. I designed PCB using <a href="https://easyeda.com/">EasyEDA</a> software and ordered on <a href="https://jlcPCB.com/">JLCPCB</a>. PCB is 6x6cm with 3mm holes on each corner, with 5mm from edge to center of the hole.</p>
-<p><img src="/img/pcb1.png" alt="PCB"></p>
+<p><img src="/img/Dister32_1/pcb1.png" alt="PCB"></p>
 <p>I will publish the next part when PCBs arrive at me(it can take a little, I live in Europe).</p>
 <p>If you want, for any reason, create your own cluster, I will publish all gerber files, source code, schematics, and tutorials when I publish the last part.</p>
 <p>Note: Project is made just for fun, do not use in any serious environment.</p>
