@@ -13,6 +13,17 @@
     
     
     <item>
+      <title>Noisy Art - Images using noise</title>
+      <link>/posts/noisy-art/</link>
+      <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
+      
+      <guid>/posts/noisy-art/</guid>
+      <description>In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
+Example map of OpenSimplex noise looks like that:
+At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</description>
+    </item>
+    
+    <item>
       <title>Dister32 - Part 1</title>
       <link>/posts/dister32-part1/</link>
       <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>

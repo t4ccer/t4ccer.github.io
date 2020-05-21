@@ -6,8 +6,51 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Tue, 12 May 2020 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Thu, 21 May 2020 11:39:44 +0200</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Noisy Art - Images using noise</title>
+            <link>/posts/noisy-art/</link>
+            <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
+            
+            <guid>/posts/noisy-art/</guid>
+            <description>In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
+Example map of OpenSimplex noise looks like that:
+At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</description>
+            <content type="html"><![CDATA[<p>In this article I will try to create some kind of &lsquo;art&rsquo; using noise. For noise generating I am using my own packet: <a href="https://github.com/t4ccer/Noisy">Noisy</a>. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.</p>
+<p>Example map of OpenSimplex noise looks like that:</p>
+<p><img src="/img/NoisyArt/noise.png" alt=""></p>
+<p>At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</p>
+<p><img src="/img/NoisyArt/grid.png" alt=""></p>
+<p>After that particles are dropped on that field, and its position is affected by vectors. When particle moves off screen its moved to the other side(like in snake game). When particle moves, it creates line from its previous position to its current position.</p>
+<p>Following parameters can be easily changed:</p>
+<ul>
+<li>Alpha channel of particle tail</li>
+<li>Particle count</li>
+<li>Vector grid size</li>
+<li>Vector force</li>
+<li>X and Y axis noise sampling</li>
+<li>Z axis noise sampling</li>
+<li>Screenshot save rate</li>
+<li>Vector angle range</li>
+</ul>
+<p>Here are some of the best images I generated using that method (Unfortunately I didn&rsquo;t note parameters of each image).</p>
+<p><img src="/img/NoisyArt/flowfield1.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield2.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield3.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield4.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield5.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield6.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield7.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield8.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield9.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield10.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield11.png" alt=""></p>
+<p><img src="/img/NoisyArt/flowfield12.png" alt=""></p>
+<p>Code is availble <a href="https://github.com/t4ccer/NoiseFlowField">here</a>. Feel free to download, experiment with parameters and create own images.</p>
+]]></content>
+        </item>
         
         <item>
             <title>Dister32 - Part 1</title>
