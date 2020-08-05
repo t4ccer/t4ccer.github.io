@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.t4ccer.com/tags/card-games/</loc>
+    <lastmod>2020-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.t4ccer.com/posts/</loc>
+    <lastmod>2020-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.t4ccer.com/posts/simulating-card-games-war/</loc>
+    <lastmod>2020-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.t4ccer.com/tags/simulations/</loc>
+    <lastmod>2020-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.t4ccer.com/</loc>
+    <lastmod>2020-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.t4ccer.com/tags/</loc>
+    <lastmod>2020-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.t4ccer.com/tags/art/</loc>
     <lastmod>2020-05-21T11:39:44+02:00</lastmod>
   </url>
@@ -18,12 +48,7 @@
   </url>
   
   <url>
-    <loc>https://www.t4ccer.com/posts/</loc>
-    <lastmod>2020-05-21T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.t4ccer.com/tags/</loc>
+    <loc>https://www.t4ccer.com/tags/visualization/</loc>
     <lastmod>2020-05-21T11:39:44+02:00</lastmod>
   </url>
   
@@ -69,11 +94,6 @@
   
   <url>
     <loc>https://www.t4ccer.com/about/</loc>
-    <lastmod>2020-04-26T23:33:39+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.t4ccer.com/</loc>
     <lastmod>2020-04-26T23:33:39+02:00</lastmod>
   </url>
   

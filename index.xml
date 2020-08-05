@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 26 Apr 2020 23:33:39 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Simulating card games: War</title>
+      <link>/posts/simulating-card-games-war/</link>
+      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/simulating-card-games-war/</guid>
+      <description>Prologue Card game war is very popular because of it&amp;rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.
+Possible strategies Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:
+ Starting from player A&amp;rsquo;s pile Starting from player B&amp;rsquo;s pile Starting from player&amp;rsquo;s that won pile  Cards are always collected interchangeably from 2 piles so only difference is from wich to start from.</description>
+    </item>
     
     <item>
       <title>Noisy Art - Images using noise</title>
