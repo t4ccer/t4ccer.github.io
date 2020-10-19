@@ -6,8 +6,100 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Mon, 19 Oct 2020 12:00:00 +0200</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Extensible IRC Bot in Haskell</title>
+            <link>/posts/extensible-irc-bot-in-haskell/</link>
+            <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
+            
+            <guid>/posts/extensible-irc-bot-in-haskell/</guid>
+            <description>Abstract To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.
+Usage Bot is configurable in app/Main.hs file, but example configurations are availble in src/Examples/*.hs.
+Base bot Lets look at src/Examples/Base.hs file now. File contains run function that starts IRC bot in an infinite loop, and handleEvent function that handles chat events.
+module Examples.Base where import ChatEvents import ExtIrcBot run :: IO () run = runBot BotSettings { host =&amp;#34;irc.</description>
+            <content type="html"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p>To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.</p>
+<h2 id="usage">Usage</h2>
+<p>Bot is configurable in <code>app/Main.hs</code> file, but example configurations are availble in <code>src/Examples/*.hs</code>.</p>
+<h4 id="base-bot">Base bot</h4>
+<p>Lets look at <code>src/Examples/Base.hs</code> file now. File contains <code>run</code> function that starts IRC bot in an infinite loop, and <code>handleEvent</code> function that handles chat events.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">module</span> Examples.Base <span style="color:#66d9ef">where</span>
+
+<span style="color:#66d9ef">import</span>           ChatEvents
+<span style="color:#66d9ef">import</span>           ExtIrcBot
+
+<span style="color:#a6e22e">run</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
+<span style="color:#a6e22e">run</span> <span style="color:#f92672">=</span> runBot <span style="color:#66d9ef">BotSettings</span>
+  { host <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;irc.freenode.net&#34;</span>
+  , port <span style="color:#f92672">=</span> <span style="color:#ae81ff">6667</span>
+  , name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MyBot&#34;</span>
+  , channels <span style="color:#f92672">=</span> <span style="color:#66d9ef">[]</span>
+  , handler <span style="color:#f92672">=</span>  handleEvent
+  , async_handlers <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+  }
+
+<span style="color:#a6e22e">handleEvent</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Handler</span>
+<span style="color:#a6e22e">handleEvent</span> <span style="color:#66d9ef">_</span> <span style="color:#f92672">=</span> return <span style="color:#f92672">$</span> <span style="color:#66d9ef">NoAction</span>
+</code></pre></div><p><code>Run</code> function simply calls <code>runBot</code> with <code>BotSettings</code> parameter. so lets take a look on <code>BotSettings</code> type.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">BotSettings</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">BotSettings</span>
+  { host           <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>   <span style="color:#75715e">-- ^ IRC server hostname</span>
+  , port           <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>   <span style="color:#75715e">-- ^ IRC server port. 6667 by default</span>
+  , name           <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>      <span style="color:#75715e">-- ^ Bot name</span>
+  , channels       <span style="color:#f92672">::</span> [<span style="color:#66d9ef">String</span>] <span style="color:#75715e">-- ^ Channels that bot&#39;ll join after start</span>
+  , handler        <span style="color:#f92672">::</span> <span style="color:#66d9ef">Handler</span>  <span style="color:#75715e">-- ^ Chat event handler function</span>
+  , async_handlers <span style="color:#f92672">::</span> <span style="color:#66d9ef">Bool</span>     <span style="color:#75715e">-- ^ If True each handler will be called </span>
+  }                            <span style="color:#75715e">--   with forkIO</span>
+</code></pre></div><p>I believe that with comments structure is pretty self-explanatory. So our bot will connect to freenode IRC server and do nothing.</p>
+<h4 id="echo-bot">Echo bot</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">module</span> Examples.EchoBot <span style="color:#66d9ef">where</span>
+
+<span style="color:#66d9ef">import</span>           ChatEvents
+<span style="color:#66d9ef">import</span>           ExtIrcBot
+<span style="color:#66d9ef">import</span>           Utils
+
+<span style="color:#a6e22e">run</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
+<span style="color:#a6e22e">run</span> <span style="color:#f92672">=</span> runBot <span style="color:#66d9ef">BotSettings</span>
+  { host <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;irc.freenode.net&#34;</span>
+  , port <span style="color:#f92672">=</span> <span style="color:#ae81ff">6667</span>
+  , name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MyEchoBot&#34;</span>
+  , channels <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;#botwar&#34;</span>]
+  , handler <span style="color:#f92672">=</span>  handleEvent
+  , async_handlers <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+  }
+
+<span style="color:#a6e22e">handleEvent</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Handler</span>
+<span style="color:#a6e22e">handleEvent</span> (<span style="color:#66d9ef">ChannelMessage</span> author chan msg) <span style="color:#f92672">=</span> return <span style="color:#f92672">$</span> 
+  <span style="color:#66d9ef">SendChannelMessage</span> chan (humanizeName author <span style="color:#f92672">++</span> <span style="color:#e6db74">&#34; said: &#34;</span> <span style="color:#f92672">++</span> msg)
+<span style="color:#a6e22e">handleEvent</span> <span style="color:#66d9ef">_</span> <span style="color:#f92672">=</span> return <span style="color:#f92672">$</span> <span style="color:#66d9ef">NoAction</span>
+</code></pre></div><p>Ok, <code>run</code> function looks rather simmilar to previous example, so lets focus now on <code>eventHandler</code> function. <code>eventHandler</code> is of type <code>Handler</code> wich is simple type alias.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Handler</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">ChatEvent</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> <span style="color:#66d9ef">ChatAction</span>
+</code></pre></div><p><code>Handler</code> returns <code>IO ChatAction</code> so it is possible to make a call to database or perform any other <code>IO</code> action on <code>ChatEvent</code>. But what is <code>ChatEvent</code>?<br>
+<code>ChatEvent</code> is an abstract type that represents certain event that happened on IRC chat (<code>ChatEvent</code> is general enough to use it also in different chats). In EchoBot example <code>handleEvent</code> function catches <code>ChannelMessage</code> event which contains author of message, channel, and message itself.</p>
+<p>So bot catches all messages on all channels defined in <code>BotSettings</code> and echos its back:</p>
+<pre><code>t4ccer: My message
+MyEchoBot: t4ccer said: My message
+</code></pre><h2 id="deeper-look">Deeper look</h2>
+<p>Bot &lsquo;framework&rsquo; looks pretty simple but under the hood contains several layers.</p>
+<h4 id="receiving">Receiving</h4>
+<p>Socket -&gt; MegaParsec -&gt; IrcCommand -&gt; ChatEvent</p>
+<p>IRC operates on TCP socket and IRC protocol is line-based, it means that each command is separated by newline(<code>\r\n</code>)</p>
+<p>Each line from socket is then passed to parsers created using <code>megaparsec</code> parsing framework(Yes, <code>megaparsec</code> is overkill, but whole bot was created for educational purposes only).</p>
+<p><code>megaparsec</code> produces <code>IrcCommand</code>s. If <code>IrcCommand</code> is <code>PING</code> then <code>PONG</code> is sent in response, but otherwise <code>IrcCommand</code> is transformed into <code>ChatEvent</code>, and finally <code>ChatEvent</code>s are handled by handler defined by us.</p>
+<h4 id="sending">Sending</h4>
+<p>ChatAction -&gt; IrcCommand -&gt; Stringify -&gt; Socket</p>
+<p><code>ChatAction</code> produced by our handler is simply transformed into <code>IrcCommand</code> which is then stringified into correct IRC command <code>String</code>. Lastly, stringified command is sent through socket.</p>
+<h2 id="setting-up-bot">Setting up bot</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/t4ccer/ext-irc-bot
+cd ext-irc-bot
+stack run
+</code></pre></div><h2 id="ps">PS</h2>
+<p>For further reading and development I recommend taking a look at <a href="https://tools.ietf.org/html/rfc1459">RFC 1459 - Internet Relay Chat Protocol</a>.</p>
+<p>For testing bot, and in examples, I used <code>#botwar</code> IRC channel on <code>irc.freenode.net</code> server. <code>#botwar</code> channel is full of various bots so my bot won&rsquo;t disturb conversations on &lsquo;traditional&rsquo; channels.</p>
+<p>Repo is <a href="https://github.com/t4ccer/ext-irc-bot">here</a></p>
+]]></content>
+        </item>
         
         <item>
             <title>Simulating card games: War</title>

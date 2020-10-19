@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 04 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 19 Oct 2020 12:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Extensible IRC Bot in Haskell</title>
+      <link>/posts/extensible-irc-bot-in-haskell/</link>
+      <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
+      
+      <guid>/posts/extensible-irc-bot-in-haskell/</guid>
+      <description>Abstract To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.
+Usage Bot is configurable in app/Main.hs file, but example configurations are availble in src/Examples/*.hs.
+Base bot Lets look at src/Examples/Base.hs file now. File contains run function that starts IRC bot in an infinite loop, and handleEvent function that handles chat events.
+module Examples.Base where import ChatEvents import ExtIrcBot run :: IO () run = runBot BotSettings { host =&amp;#34;irc.</description>
+    </item>
     
     <item>
       <title>Simulating card games: War</title>
