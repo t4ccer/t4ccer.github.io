@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 19 Oct 2020 12:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2020 12:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Handling logs and errors in Haskell</title>
+      <link>/posts/handling-logs-and-errors-in-haskell/</link>
+      <pubDate>Tue, 27 Oct 2020 12:00:00 +0200</pubDate>
+      
+      <guid>/posts/handling-logs-and-errors-in-haskell/</guid>
+      <description>Abstract Handling logs and errors in pure and stateless programs is difficult, if we want to do it simultaneously it&amp;rsquo;s even harder, however with knowledge of some monads, and monad transformers can be done.
+I assume that you are familiar with Maybe monad, Writer monad, and Monoid concept. If not You can read about them here:
+ Maybe - Haskell/Understanding monads/Maybe Writer - Writer monad Monoid - Monoid  MyLogger My goal is to create data structure that can aggregate logs, and allow for calculation to fail.</description>
+    </item>
     
     <item>
       <title>Extensible IRC Bot in Haskell</title>
