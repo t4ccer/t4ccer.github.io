@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
+Approaches Entry creation json:
+{ &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;John&amp;#34;, &amp;#34;lastName&amp;#34;: &amp;#34;Doe&amp;#34; } Mutation json:
+{ &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;Mike&amp;#34; } Naive approach In nearly any language(example is in c#) we could use normal nullable fields like that:" />
+<meta name="keywords" content=", Haskell, Functional Programming" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/posts/optional-record-mutations/" />
+
+
+    <title>
+        
+            Optional record mutations in Haskell :: t4ccer 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.66e02c2f30d50da60169f383ffbeb3620799cb81f0e509ddf89b662347f2f2be.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Optional record mutations in Haskell">
+<meta itemprop="description" content="Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
+Approaches Entry creation json:
+{ &#34;userId&#34;: 1337, &#34;firstName&#34;: &#34;John&#34;, &#34;lastName&#34;: &#34;Doe&#34; } Mutation json:
+{ &#34;userId&#34;: 1337, &#34;firstName&#34;: &#34;Mike&#34; } Naive approach In nearly any language(example is in c#) we could use normal nullable fields like that:"><meta itemprop="datePublished" content="2021-03-28T12:00:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-03-28T12:00:00&#43;02:00" />
+<meta itemprop="wordCount" content="561"><meta itemprop="image" content="/"/>
+<meta itemprop="keywords" content="Haskell,Functional Programming," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Optional record mutations in Haskell"/>
+<meta name="twitter:description" content="Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
+Approaches Entry creation json:
+{ &#34;userId&#34;: 1337, &#34;firstName&#34;: &#34;John&#34;, &#34;lastName&#34;: &#34;Doe&#34; } Mutation json:
+{ &#34;userId&#34;: 1337, &#34;firstName&#34;: &#34;Mike&#34; } Naive approach In nearly any language(example is in c#) we could use normal nullable fields like that:"/>
+
+
+
+    <meta property="og:title" content="Optional record mutations in Haskell" />
+<meta property="og:description" content="Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
+Approaches Entry creation json:
+{ &#34;userId&#34;: 1337, &#34;firstName&#34;: &#34;John&#34;, &#34;lastName&#34;: &#34;Doe&#34; } Mutation json:
+{ &#34;userId&#34;: 1337, &#34;firstName&#34;: &#34;Mike&#34; } Naive approach In nearly any language(example is in c#) we could use normal nullable fields like that:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/optional-record-mutations/" /><meta property="og:image" content="/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-28T12:00:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-03-28T12:00:00&#43;02:00" /><meta property="og:site_name" content="t4ccer" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-03-28 12:00:00 &#43;0200 CEST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">t4ccer/blog</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color: #00aeff;
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/posts/">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>3 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="/posts/optional-record-mutations/">Optional record mutations in Haskell</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#approaches">Approaches</a>
+      <ul>
+        <li><a href="#naive-approach">Naive approach</a></li>
+        <li><a href="#type-safe-approach">Type-safe approach</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+
+            <div class="post-content">
+                <h2 id="abstract">Abstract</h2>
+<p>Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.</p>
+<h2 id="approaches">Approaches</h2>
+<p>Entry creation json:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;userId&#34;</span>: <span style="color:#ae81ff">1337</span>,
+  <span style="color:#f92672">&#34;firstName&#34;</span>: <span style="color:#e6db74">&#34;John&#34;</span>,
+  <span style="color:#f92672">&#34;lastName&#34;</span>: <span style="color:#e6db74">&#34;Doe&#34;</span>
+}
+</code></pre></div><p>Mutation json:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;userId&#34;</span>: <span style="color:#ae81ff">1337</span>,
+  <span style="color:#f92672">&#34;firstName&#34;</span>: <span style="color:#e6db74">&#34;Mike&#34;</span>
+}
+</code></pre></div><h3 id="naive-approach">Naive approach</h3>
+<p>In nearly any language(example is in c#) we could use normal nullable fields like that:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>
+{
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> userId;
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> firstName;
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> lastName;
+  <span style="color:#75715e">// milion other fields
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Now, when it is needed to create new entry all fields should be filled, but when updating exsisting one only these that changed.
+This approach is fairly easy, but error-prone. First of all, when seeing <code>User</code> data we do not know if it is complete data or data mutation.
+What is more, nothing prevents from passing null when creating new field.
+All these checks must be done by programmer.</p>
+<h3 id="type-safe-approach">Type-safe approach</h3>
+<p>Type-safe approach is coded in haskell.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">User</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>
+  { userId        <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>
+  , userFirstName <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
+  , userLastName  <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
+  <span style="color:#75715e">-- milion other fields</span>
+  }
+  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Generic</span>)
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Identity</span>
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserMutation</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Maybe</span>
+</code></pre></div><p>In haskell solution it is clear what is a new entry and what is a data mutaton.
+With this approach only fields wrapped in <code>m</code> are mutable. This adds possibility to create immutable fields(like <code>userId</code> in example).</p>
+<p>To make things better with help of some <code>typeclass</code>es and <code>TH</code> applying mutations can be done automagicly.</p>
+<p>Lets define <code>Mergeable</code> <code>typeclass</code> and some helpers:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">class</span> <span style="color:#66d9ef">Mergeable</span> m <span style="color:#66d9ef">where</span>
+  merge <span style="color:#f92672">::</span> m <span style="color:#66d9ef">Identity</span> <span style="color:#f92672">-&gt;</span> m <span style="color:#66d9ef">Maybe</span> <span style="color:#f92672">-&gt;</span> m <span style="color:#66d9ef">Identity</span>
+
+<span style="color:#a6e22e">merge1</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Identity</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">Maybe</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">Identity</span> a
+<span style="color:#a6e22e">merge1</span> <span style="color:#66d9ef">_</span> (<span style="color:#66d9ef">Just</span> x)           <span style="color:#f92672">=</span> <span style="color:#66d9ef">Identity</span> x
+<span style="color:#a6e22e">merge1</span> (<span style="color:#66d9ef">Identity</span> x) <span style="color:#66d9ef">Nothing</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Identity</span> x
+</code></pre></div><p>If we would like to implement <code>Mergeable</code> <code>instance</code> by hand for <code>User m</code> it would look like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Mergeable</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">where</span>
+  merge u1 u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>
+    { userId        <span style="color:#f92672">=</span> userId u1
+    , userFirstName <span style="color:#f92672">=</span> merge1 (userFirstName u1) (userFirstName u2)
+    , userLastName  <span style="color:#f92672">=</span> merge1 (userLastName u1)  (userLastName u2)
+    }
+</code></pre></div><p>This is very repetitive work, so it can be done using touch of <code>TH</code>.
+Implementation is availble <a href="">here</a>.
+By calling <code>$(mkMergeable ''User)</code> after <code>User</code> definition, <code>TH</code> will generate <code>Mergeable</code> and <code>Default</code> instances for our <code>User</code> datatype.</p>
+<p>Complete example looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#75715e">{-# LANGUAGE DeriveGeneric       #-}</span>
+<span style="color:#75715e">{-# LANGUAGE FlexibleInstances   #-}</span>
+<span style="color:#75715e">{-# LANGUAGE StandaloneDeriving  #-}</span>
+<span style="color:#75715e">{-# LANGUAGE TemplateHaskell     #-}</span>
+
+<span style="color:#66d9ef">module</span> Main <span style="color:#66d9ef">where</span>
+
+<span style="color:#66d9ef">import</span>           Data.Default
+<span style="color:#66d9ef">import</span>           Data.Functor.Identity
+<span style="color:#66d9ef">import</span>           Data.Mergeable
+<span style="color:#66d9ef">import</span>           GHC.Generics
+
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">User</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>
+  { userId        <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>
+  , userFirstName <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
+  , userLastName  <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
+  <span style="color:#75715e">-- milion other fields</span>
+  }
+  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Generic</span>)
+
+<span style="color:#f92672">$</span>(mkMergeable <span style="color:#66d9ef">&#39;&#39;User</span>)
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Identity</span>
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserMutation</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Maybe</span>
+
+<span style="color:#66d9ef">deriving</span> <span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Show</span> <span style="color:#66d9ef">UserData</span>
+<span style="color:#66d9ef">deriving</span> <span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Show</span> <span style="color:#66d9ef">UserMutation</span>
+
+<span style="color:#a6e22e">userMod</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">UserMutation</span>
+<span style="color:#a6e22e">userMod</span> <span style="color:#f92672">=</span> def {userFirstName <span style="color:#f92672">=</span> pure <span style="color:#e6db74">&#34;Mike&#34;</span>}
+
+<span style="color:#a6e22e">user</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">UserData</span>
+<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>  <span style="color:#ae81ff">1</span> (pure <span style="color:#e6db74">&#34;John&#34;</span>) (pure <span style="color:#e6db74">&#34;Smith&#34;</span>)
+
+<span style="color:#a6e22e">main</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
+<span style="color:#a6e22e">main</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  print user
+  print userMod
+  print <span style="color:#f92672">$</span> merge user userMod
+
+<span style="color:#75715e">{-
+</span><span style="color:#75715e">$ stack run
+</span><span style="color:#75715e">User {userId = 1, userFirstName = Identity &#34;John&#34;, userLastName = Identity &#34;Smith&#34;}
+</span><span style="color:#75715e">User {userId = 0, userFirstName = Just &#34;Mike&#34;, userLastName = Nothing}
+</span><span style="color:#75715e">User {userId = 1, userFirstName = Identity &#34;Mike&#34;, userLastName = Identity &#34;Smith&#34;}
+</span><span style="color:#75715e">$ 
+</span><span style="color:#75715e">-}</span>
+</code></pre></div><p>Repository with code is <a href="">here</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/haskell">Haskell</a></span><span class="tag"><a href="/tags/functional-programming">Functional Programming</a></span>
+                </p>
+
+            
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/posts/handling-logs-and-errors-in-haskell/">
+                                <span class="button__text">Handling logs and errors in Haskell</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>copyright by t4ccer</span>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.59ecdc8ddd50b30e6dd7ad4a5372c3fd24a26db671cc1575443b150ceb9d4bc8e73618fb298596b5c336cf5d8c2db90bd7e72a648479e97884e5398722f962fa.js" integrity="sha512-Wezcjd1Qsw5t161KU3LD/SSibbZxzBV1RDsVDOudS8jnNhj7KYWWtcM2z12MLbkL1&#43;cqZIR56XiE5TmHIvli&#43;g=="></script>
+
+
+
+    </body>
+</html>

@@ -7,10 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 27 Oct 2020 12:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optional record mutations in Haskell</title>
+      <link>/posts/optional-record-mutations/</link>
+      <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
+      
+      <guid>/posts/optional-record-mutations/</guid>
+      <description>Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
+Approaches Entry creation json:
+{ &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;John&amp;#34;, &amp;#34;lastName&amp;#34;: &amp;#34;Doe&amp;#34; } Mutation json:
+{ &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;Mike&amp;#34; } Naive approach In nearly any language(example is in c#) we could use normal nullable fields like that:</description>
+    </item>
     
     <item>
       <title>Handling logs and errors in Haskell</title>

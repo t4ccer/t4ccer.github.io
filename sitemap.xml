@@ -1,133 +1,84 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://www.t4ccer.com/tags/functional-programming/</loc>
-    <lastmod>2020-10-27T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-03-28T12:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://www.t4ccer.com/tags/haskell/</loc>
+    <lastmod>2021-03-28T12:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://www.t4ccer.com/posts/optional-record-mutations/</loc>
+    <lastmod>2021-03-28T12:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://www.t4ccer.com/posts/</loc>
+    <lastmod>2021-03-28T12:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://www.t4ccer.com/</loc>
+    <lastmod>2021-03-28T12:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://www.t4ccer.com/tags/</loc>
+    <lastmod>2021-03-28T12:00:00+02:00</lastmod>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/handling-logs-and-errors-in-haskell/</loc>
     <lastmod>2020-10-27T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.t4ccer.com/tags/haskell/</loc>
-    <lastmod>2020-10-27T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.t4ccer.com/posts/</loc>
-    <lastmod>2020-10-27T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.t4ccer.com/</loc>
-    <lastmod>2020-10-27T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.t4ccer.com/tags/</loc>
-    <lastmod>2020-10-27T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/bot/</loc>
     <lastmod>2020-10-19T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/extensible-irc-bot-in-haskell/</loc>
     <lastmod>2020-10-19T12:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/card-games/</loc>
     <lastmod>2020-08-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/simulating-card-games-war/</loc>
     <lastmod>2020-08-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/simulations/</loc>
     <lastmod>2020-08-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/art/</loc>
     <lastmod>2020-05-21T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/noise/</loc>
     <lastmod>2020-05-21T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/noisy-art/</loc>
     <lastmod>2020-05-21T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/visualization/</loc>
     <lastmod>2020-05-21T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/dister/</loc>
     <lastmod>2020-05-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/dister32-part1/</loc>
     <lastmod>2020-05-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/esp32/</loc>
     <lastmod>2020-05-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/ai/</loc>
     <lastmod>2020-05-07T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/neat/</loc>
     <lastmod>2020-05-07T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/sharpneat-tutorial/</loc>
     <lastmod>2020-05-07T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/tags/tutorial/</loc>
     <lastmod>2020-05-07T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</loc>
     <lastmod>2020-05-01T11:39:44+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/about/</loc>
     <lastmod>2020-04-26T23:33:39+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/blog/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://www.t4ccer.com/series/</loc>
   </url>
-  
 </urlset>
