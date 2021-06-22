@@ -2,18 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Noise on t4ccer</title>
-    <link>/tags/noise/</link>
+    <link>https://t4ccer.com/tags/noise/</link>
     <description>Recent content in Noise on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 21 May 2020 11:39:44 +0200</lastBuildDate><atom:link href="/tags/noise/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 May 2020 11:39:44 +0200</lastBuildDate><atom:link href="https://t4ccer.com/tags/noise/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Noisy Art - Images using noise</title>
-      <link>/posts/noisy-art/</link>
+      <link>https://t4ccer.com/posts/noisy-art/</link>
       <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/noisy-art/</guid>
+      <guid>https://t4ccer.com/posts/noisy-art/</guid>
       <description>In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
 Example map of OpenSimplex noise looks like that:
 At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</description>

@@ -2,18 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Haskell on t4ccer</title>
-    <link>/tags/haskell/</link>
+    <link>https://t4ccer.com/tags/haskell/</link>
     <description>Recent content in Haskell on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="https://t4ccer.com/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Optional record mutations in Haskell</title>
-      <link>/posts/optional-record-mutations/</link>
+      <link>https://t4ccer.com/posts/optional-record-mutations/</link>
       <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
       
-      <guid>/posts/optional-record-mutations/</guid>
+      <guid>https://t4ccer.com/posts/optional-record-mutations/</guid>
       <description>Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
 Approaches Entry creation json:
 { &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;John&amp;#34;, &amp;#34;lastName&amp;#34;: &amp;#34;Doe&amp;#34; } Mutation json:
@@ -22,10 +21,10 @@ Approaches Entry creation json:
     
     <item>
       <title>Handling logs and errors in Haskell</title>
-      <link>/posts/handling-logs-and-errors-in-haskell/</link>
+      <link>https://t4ccer.com/posts/handling-logs-and-errors-in-haskell/</link>
       <pubDate>Tue, 27 Oct 2020 12:00:00 +0200</pubDate>
       
-      <guid>/posts/handling-logs-and-errors-in-haskell/</guid>
+      <guid>https://t4ccer.com/posts/handling-logs-and-errors-in-haskell/</guid>
       <description>Abstract Handling logs and errors in pure and stateless programs is difficult, if we want to do it simultaneously it&amp;rsquo;s even harder, however with knowledge of some monads, and monad transformers can be done.
 I assume that you are familiar with Maybe monad, Writer monad, and Monoid concept. If not You can read about them here:
  Maybe - Haskell/Understanding monads/Maybe Writer - Writer monad Monoid - Monoid  MyLogger My goal is to create data structure that can aggregate logs, and allow for calculation to fail.</description>
@@ -33,10 +32,10 @@ I assume that you are familiar with Maybe monad, Writer monad, and Monoid concep
     
     <item>
       <title>Extensible IRC Bot in Haskell</title>
-      <link>/posts/extensible-irc-bot-in-haskell/</link>
+      <link>https://t4ccer.com/posts/extensible-irc-bot-in-haskell/</link>
       <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
       
-      <guid>/posts/extensible-irc-bot-in-haskell/</guid>
+      <guid>https://t4ccer.com/posts/extensible-irc-bot-in-haskell/</guid>
       <description>Abstract To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.
 Usage Bot is configurable in app/Main.hs file, but example configurations are availble in src/Examples/*.hs.
 Base bot Lets look at src/Examples/Base.hs file now. File contains run function that starts IRC bot in an infinite loop, and handleEvent function that handles chat events.

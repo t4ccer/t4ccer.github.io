@@ -1,161 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="">
-<meta name="description" content="In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
-Example map of OpenSimplex noise looks like that:
-At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little." />
-<meta name="keywords" content=", Noise, Art, Visualization" />
-<meta name="robots" content="noodp" />
-<meta name="theme-color" content="" />
-<link rel="canonical" href="/posts/noisy-art/" />
+<head>
+  <title>Noisy Art - Images using noise</title>
 
+  <meta name="description" content="">
 
-    <title>
-        
-            Noisy Art - Images using noise :: t4ccer 
-        
-    </title>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:title" content="Noisy Art - Images using noise">
+  <meta name="twitter:creator" content="t4ccer">
+  <meta name="twitter:site" content="t4ccer">
+  <meta name="twitter:image" content="https://www.t4ccer.com/img/t4logo.png">
 
+  <meta property="og:title" content="Noisy Art - Images using noise">
+  <meta property="og:image" content="https://www.t4ccer.com/img/t4logo.png">
+  <meta property="og:description" content="">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="t4ccer">
 
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+  
+  <link rel="icon" type="image/png" href="/img/favicon.ico" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
-    type="text/css">
+<html>
+<!DOCTYPE html>
+<html>
 
+<body>
+  <header class="site-header">
 
-
-<link rel="stylesheet" href="/main.min.66e02c2f30d50da60169f383ffbeb3620799cb81f0e509ddf89b662347f2f2be.css">
-
-
-
-
-
-
-<meta itemprop="name" content="Noisy Art - Images using noise">
-<meta itemprop="description" content="In this article I will try to create some kind of &lsquo;art&rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
-Example map of OpenSimplex noise looks like that:
-At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little."><meta itemprop="datePublished" content="2020-05-21T11:39:44&#43;02:00" />
-<meta itemprop="dateModified" content="2020-05-21T11:39:44&#43;02:00" />
-<meta itemprop="wordCount" content="197"><meta itemprop="image" content="/"/>
-<meta itemprop="keywords" content="Noise,Art,Visualization," />
-
-
-
-
-
-<meta property="twitter:description" content="">
-<meta property="twitter:title" content="Noisy Art - Images using noise">
-
-<meta property="twitter:image" content="https://www.t4ccer.com/img/t4logo.png">
-
-
-
-
-<meta property="og:title" content="Noisy Art - Images using noise">
-
-<meta property="og:type" content="article">
-<meta property="article:published_time" content="2020-05-21">
-
-<meta property="og:description" content="">
-<meta property="og:url" content="/posts/noisy-art/">
-<meta property="og:site_name" content="t4ccer">
-
-<meta property="og:image" content="https://www.t4ccer.com/img/t4logo.png">
-
-
-<meta property="og:tags" content="Noise">
-
-<meta property="og:tags" content="Art">
-
-<meta property="og:tags" content="Visualization">
-
-
-
-
-
-
-
-    <meta property="article:published_time" content="2020-05-21 11:39:44 &#43;0200 CEST" />
-
-
-
-
-
-
-
-
-    </head>
-
-    <body class="dark-theme">
-        <div class="container">
-            <header class="header">
-    <span class="header__inner">
-        <a href="/" style="text-decoration: none;">
-    <div class="logo">
-        
-            <span class="logo__mark">></span>
-            <span class="logo__text">t4ccer/blog</span>
-            <span class="logo__cursor" style=
-                  "
-                   background-color: #00aeff;
-                   
-                   ">
-            </span>
-        
+    <div class="wrapper">
+      <a class="muted small" href="https://t4ccer.com/">t4ccer</a>
     </div>
-</a>
+  </header>
+</body>
 
+</html>
 
-        <span class="header__right">
-            
-                <nav class="menu">
-    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/posts/">Blog</a></li>
-    </ul>
-</nav>
-
-                <span class="menu-trigger">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-                    </svg>
-                </span>
-            
-
-            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
-        </span>
-    </span>
-</header>
-
-
-            <div class="content">
-                
-    <main class="post">
-
-        <div class="post-info">
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>One minute
-
-            
-
-            </p>
-        </div>
-
-        <article>
-            <h1 class="post-title">
-                <a href="/posts/noisy-art/">Noisy Art - Images using noise</a>
-            </h1>
-
-            
-
-            <div class="post-content">
-                <p>In this article I will try to create some kind of &lsquo;art&rsquo; using noise. For noise generating I am using my own packet: <a href="https://github.com/t4ccer/Noisy">Noisy</a>. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.</p>
+<h1>Noisy Art - Images using noise</h1>
+<title>Noisy Art - Images using noise</title>
+<p class="post-meta"><time itemprop="datePublished">May 21, 2020</time>
+</p>
+<p>In this article I will try to create some kind of &lsquo;art&rsquo; using noise. For noise generating I am using my own packet: <a href="https://github.com/t4ccer/Noisy">Noisy</a>. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.</p>
 <p>Example map of OpenSimplex noise looks like that:</p>
 <p><img src="/img/NoisyArt/noise.png" alt=""></p>
 <p>At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</p>
@@ -187,70 +81,13 @@ At first I created grid with vectors. Direction of each vector is chosen using O
 <p><img src="/img/NoisyArt/flowfield12.png" alt=""></p>
 <p>Code is availble <a href="https://github.com/t4ccer/NoiseFlowField">here</a>. Feel free to download, experiment with parameters and create own images.</p>
 
-            </div>
-        </article>
 
-        <hr />
-
-        <div class="post-info">
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/noise">Noise</a></span><span class="tag"><a href="/tags/art">Art</a></span><span class="tag"><a href="/tags/visualization">Visualization</a></span>
-                </p>
-
-            
-        </div>
-
-        
-            <div class="pagination">
-                <div class="pagination__title">
-                    <span class="pagination__title-h">Read other posts</span>
-                    <hr />
-                </div>
-
-                <div class="pagination__buttons">
-                    
-                        <span class="button previous">
-                            <a href="/posts/simulating-card-games-war/">
-                                <span class="button__icon">←</span>
-                                <span class="button__text">Simulating card games: War</span>
-                            </a>
-                        </span>
-                    
-
-                    
-                        <span class="button next">
-                            <a href="/posts/dister32-part1/">
-                                <span class="button__text">Dister32 - Part 1</span>
-                                <span class="button__icon">→</span>
-                            </a>
-                        </span>
-                    
-                </div>
-            </div>
-        
-    </main>
-
-            </div>
-
-            
-                <footer class="footer">
-    <div class="footer__inner">
-        <div class="footer__content">
-            <span>copyright by t4ccer</span>
+<footer>
+    <div>
+        <h3><a href="https://t4ccer.com/posts">Back to all posts</a></h3>
     </div>
+    <hr>
+    <p>Go <a href="https://t4ccer.com//index.xml">here</a> for an RSS feed.</p>
 </footer>
 
-            
-        </div>
-
-        
-
-
-
-
-<script type="text/javascript" src="/bundle.min.59ecdc8ddd50b30e6dd7ad4a5372c3fd24a26db671cc1575443b150ceb9d4bc8e73618fb298596b5c336cf5d8c2db90bd7e72a648479e97884e5398722f962fa.js" integrity="sha512-Wezcjd1Qsw5t161KU3LD/SSibbZxzBV1RDsVDOudS8jnNhj7KYWWtcM2z12MLbkL1&#43;cqZIR56XiE5TmHIvli&#43;g=="></script>
-
-
-
-    </body>
 </html>

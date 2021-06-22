@@ -2,28 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>NEAT on t4ccer</title>
-    <link>/tags/neat/</link>
+    <link>https://t4ccer.com/tags/neat/</link>
     <description>Recent content in NEAT on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 07 May 2020 11:39:44 +0200</lastBuildDate><atom:link href="/tags/neat/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 May 2020 11:39:44 +0200</lastBuildDate><atom:link href="https://t4ccer.com/tags/neat/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SharpNEAT Tutorial</title>
-      <link>/posts/sharpneat-tutorial/</link>
+      <link>https://t4ccer.com/posts/sharpneat-tutorial/</link>
       <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/sharpneat-tutorial/</guid>
+      <guid>https://t4ccer.com/posts/sharpneat-tutorial/</guid>
       <description>SharpNEAT is great library for developing NEAT networks, but unfortunatly is very poorly documented, so I created some boilerplate code to kickstart Your project.
 // inputCount - Count of inout neurons // outputCount - Count of output neurons // specimenCount - Specimen count in each generation  var neatGenomeFactory = new NeatGenomeFactory(inputCount, outputCount); var genomeList = neatGenomeFactory.CreateGenomeList(specimenCount, 0); var neatParameters = new NeatEvolutionAlgorithmParameters { SpecieCount = specimenCount }; var distanceMetric = new ManhattanDistanceMetric(); var speciationStrategy = new ParallelKMeansClusteringStrategy&amp;lt;NeatGenome&amp;gt; (distanceMetric); var complexityRegulationStrategy = new NullComplexityRegulationStrategy(); var network = new NeatEvolutionAlgorithm&amp;lt;NeatGenome&amp;gt; (neatParameters, speciationStrategy, complexityRegulationStrategy); var activationScheme = NetworkActivationScheme .</description>
     </item>
     
     <item>
       <title>DashAI - Geometry Dash AI using NEAT</title>
-      <link>/posts/dashai-geometry-dash-ai-using-neat/</link>
+      <link>https://t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</link>
       <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/dashai-geometry-dash-ai-using-neat/</guid>
+      <guid>https://t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</guid>
       <description>Geometry Dash is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.
 You can stand on black tiles, red tiles kill. Simple. To create AI I used NEAT algorithm using sharpneat library. Neural network as input takes 7x7 tiles in front of player(picture below) and output is only one, jump or not.</description>
     </item>

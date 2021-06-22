@@ -1,750 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Posts on t4ccer</title>
-        <link>/posts/</link>
-        <description>Recent content in Posts on t4ccer</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate>
-        <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
-        
-        <item>
-            <title>Optional record mutations in Haskell</title>
-            <link>/posts/optional-record-mutations/</link>
-            <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
-            
-            <guid>/posts/optional-record-mutations/</guid>
-            <description>Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
+  <channel>
+    <title>Posts on t4ccer</title>
+    <link>https://t4ccer.com/posts/</link>
+    <description>Recent content in Posts on t4ccer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="https://t4ccer.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optional record mutations in Haskell</title>
+      <link>https://t4ccer.com/posts/optional-record-mutations/</link>
+      <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
+      
+      <guid>https://t4ccer.com/posts/optional-record-mutations/</guid>
+      <description>Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
 Approaches Entry creation json:
 { &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;John&amp;#34;, &amp;#34;lastName&amp;#34;: &amp;#34;Doe&amp;#34; } Mutation json:
 { &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;Mike&amp;#34; } Naive approach In nearly any language(example is in c#) we could use normal nullable fields like that:</description>
-            <content type="html"><![CDATA[<h2 id="abstract">Abstract</h2>
-<p>Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.</p>
-<h2 id="approaches">Approaches</h2>
-<p>Entry creation json:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;userId&#34;</span>: <span style="color:#ae81ff">1337</span>,
-  <span style="color:#f92672">&#34;firstName&#34;</span>: <span style="color:#e6db74">&#34;John&#34;</span>,
-  <span style="color:#f92672">&#34;lastName&#34;</span>: <span style="color:#e6db74">&#34;Doe&#34;</span>
-}
-</code></pre></div><p>Mutation json:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;userId&#34;</span>: <span style="color:#ae81ff">1337</span>,
-  <span style="color:#f92672">&#34;firstName&#34;</span>: <span style="color:#e6db74">&#34;Mike&#34;</span>
-}
-</code></pre></div><h3 id="naive-approach">Naive approach</h3>
-<p>In nearly any language(example is in c#) we could use normal nullable fields like that:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>
-{
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> userId;
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> firstName;
-  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> lastName;
-  <span style="color:#75715e">// milion other fields
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>Now, when it is needed to create new entry all fields should be filled, but when updating exsisting one only these that changed.
-This approach is fairly easy, but error-prone. First of all, when seeing <code>User</code> data we do not know if it is complete data or data mutation.
-What is more, nothing prevents from passing null when creating new field.
-All these checks must be done by programmer.</p>
-<h3 id="type-safe-approach">Type-safe approach</h3>
-<p>Type-safe approach is coded in haskell.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">User</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>
-  { userId        <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>
-  , userFirstName <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
-  , userLastName  <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
-  <span style="color:#75715e">-- milion other fields</span>
-  }
-  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Generic</span>)
-
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Identity</span>
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserMutation</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Maybe</span>
-</code></pre></div><p>In haskell solution it is clear what is a new entry and what is a data mutaton.
-With this approach only fields wrapped in <code>m</code> are mutable. This adds possibility to create immutable fields(like <code>userId</code> in example).</p>
-<p>To make things better with help of some <code>typeclass</code>es and <code>TH</code> applying mutations can be done automagicly.</p>
-<p>Lets define <code>Mergeable</code> <code>typeclass</code> and some helpers:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">class</span> <span style="color:#66d9ef">Mergeable</span> m <span style="color:#66d9ef">where</span>
-  merge <span style="color:#f92672">::</span> m <span style="color:#66d9ef">Identity</span> <span style="color:#f92672">-&gt;</span> m <span style="color:#66d9ef">Maybe</span> <span style="color:#f92672">-&gt;</span> m <span style="color:#66d9ef">Identity</span>
-
-<span style="color:#a6e22e">merge1</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Identity</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">Maybe</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">Identity</span> a
-<span style="color:#a6e22e">merge1</span> <span style="color:#66d9ef">_</span> (<span style="color:#66d9ef">Just</span> x)           <span style="color:#f92672">=</span> <span style="color:#66d9ef">Identity</span> x
-<span style="color:#a6e22e">merge1</span> (<span style="color:#66d9ef">Identity</span> x) <span style="color:#66d9ef">Nothing</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Identity</span> x
-</code></pre></div><p>If we would like to implement <code>Mergeable</code> <code>instance</code> by hand for <code>User m</code> it would look like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Mergeable</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">where</span>
-  merge u1 u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>
-    { userId        <span style="color:#f92672">=</span> userId u1
-    , userFirstName <span style="color:#f92672">=</span> merge1 (userFirstName u1) (userFirstName u2)
-    , userLastName  <span style="color:#f92672">=</span> merge1 (userLastName u1)  (userLastName u2)
-    }
-</code></pre></div><p>This is very repetitive work, so it can be done using touch of <code>TH</code>.
-Implementation is availble <a href="https://github.com/t4ccer/record-mutators/blob/main/src/Data/Mergeable/TH.hs">here</a>.
-By calling <code>$(mkMergeable ''User)</code> after <code>User</code> definition, <code>TH</code> will generate <code>Mergeable</code> and <code>Default</code> instances for our <code>User</code> datatype.</p>
-<p>Complete example looks like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#75715e">{-# LANGUAGE DeriveGeneric       #-}</span>
-<span style="color:#75715e">{-# LANGUAGE FlexibleInstances   #-}</span>
-<span style="color:#75715e">{-# LANGUAGE StandaloneDeriving  #-}</span>
-<span style="color:#75715e">{-# LANGUAGE TemplateHaskell     #-}</span>
-
-<span style="color:#66d9ef">module</span> Main <span style="color:#66d9ef">where</span>
-
-<span style="color:#66d9ef">import</span>           Data.Default
-<span style="color:#66d9ef">import</span>           Data.Functor.Identity
-<span style="color:#66d9ef">import</span>           Data.Mergeable
-<span style="color:#66d9ef">import</span>           GHC.Generics
-
-<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">User</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>
-  { userId        <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>
-  , userFirstName <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
-  , userLastName  <span style="color:#f92672">::</span> m <span style="color:#66d9ef">String</span>
-  <span style="color:#75715e">-- milion other fields</span>
-  }
-  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Generic</span>)
-
-<span style="color:#f92672">$</span>(mkMergeable <span style="color:#66d9ef">&#39;&#39;User</span>)
-
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Identity</span>
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">UserMutation</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">Maybe</span>
-
-<span style="color:#66d9ef">deriving</span> <span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Show</span> <span style="color:#66d9ef">UserData</span>
-<span style="color:#66d9ef">deriving</span> <span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Show</span> <span style="color:#66d9ef">UserMutation</span>
-
-<span style="color:#a6e22e">userMod</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">UserMutation</span>
-<span style="color:#a6e22e">userMod</span> <span style="color:#f92672">=</span> def {userFirstName <span style="color:#f92672">=</span> pure <span style="color:#e6db74">&#34;Mike&#34;</span>}
-
-<span style="color:#a6e22e">user</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">UserData</span>
-<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">User</span>  <span style="color:#ae81ff">1</span> (pure <span style="color:#e6db74">&#34;John&#34;</span>) (pure <span style="color:#e6db74">&#34;Smith&#34;</span>)
-
-<span style="color:#a6e22e">main</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
-<span style="color:#a6e22e">main</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
-  print user
-  print userMod
-  print <span style="color:#f92672">$</span> merge user userMod
-
-<span style="color:#75715e">{-
-</span><span style="color:#75715e">$ stack run
-</span><span style="color:#75715e">User {userId = 1, userFirstName = Identity &#34;John&#34;, userLastName = Identity &#34;Smith&#34;}
-</span><span style="color:#75715e">User {userId = 0, userFirstName = Just &#34;Mike&#34;, userLastName = Nothing}
-</span><span style="color:#75715e">User {userId = 1, userFirstName = Identity &#34;Mike&#34;, userLastName = Identity &#34;Smith&#34;}
-</span><span style="color:#75715e">$ 
-</span><span style="color:#75715e">-}</span>
-</code></pre></div><p>Repository with code is <a href="https://github.com/t4ccer/record-mutators">here</a></p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Handling logs and errors in Haskell</title>
-            <link>/posts/handling-logs-and-errors-in-haskell/</link>
-            <pubDate>Tue, 27 Oct 2020 12:00:00 +0200</pubDate>
-            
-            <guid>/posts/handling-logs-and-errors-in-haskell/</guid>
-            <description>Abstract Handling logs and errors in pure and stateless programs is difficult, if we want to do it simultaneously it&amp;rsquo;s even harder, however with knowledge of some monads, and monad transformers can be done.
+    </item>
+    
+    <item>
+      <title>Handling logs and errors in Haskell</title>
+      <link>https://t4ccer.com/posts/handling-logs-and-errors-in-haskell/</link>
+      <pubDate>Tue, 27 Oct 2020 12:00:00 +0200</pubDate>
+      
+      <guid>https://t4ccer.com/posts/handling-logs-and-errors-in-haskell/</guid>
+      <description>Abstract Handling logs and errors in pure and stateless programs is difficult, if we want to do it simultaneously it&amp;rsquo;s even harder, however with knowledge of some monads, and monad transformers can be done.
 I assume that you are familiar with Maybe monad, Writer monad, and Monoid concept. If not You can read about them here:
  Maybe - Haskell/Understanding monads/Maybe Writer - Writer monad Monoid - Monoid  MyLogger My goal is to create data structure that can aggregate logs, and allow for calculation to fail.</description>
-            <content type="html"><![CDATA[<h2 id="abstract">Abstract</h2>
-<p>Handling logs and errors in pure and stateless programs is difficult, if we want to do it simultaneously it&rsquo;s even harder, however with knowledge of some monads, and monad transformers can be done.</p>
-<p>I assume that you are familiar with <code>Maybe</code> monad, <code>Writer</code> monad, and <code>Monoid</code> concept. If not You can read about them here:</p>
-<ul>
-<li><code>Maybe</code> - <a href="https://en.wikibooks.org/wiki/Haskell/Understanding_monads/Maybe">Haskell/Understanding monads/Maybe</a></li>
-<li><code>Writer</code> - <a href="https://kseo.github.io/posts/2017-01-21-writer-monad.html">Writer monad</a></li>
-<li><code>Monoid</code> - <a href="https://wiki.haskell.org/Monoid">Monoid</a></li>
-</ul>
-<h2 id="mylogger">MyLogger</h2>
-<p>My goal is to create data structure that can aggregate logs, and allow for calculation to fail. We know that for log aggregation useful is <code>Writer</code> monad, and for operations that can fail we can use <code>Maybe</code> or <code>Either</code>, so why not combine them both to create our desired structure.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Log</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">String</span>
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Logs</span> <span style="color:#f92672">=</span> [<span style="color:#66d9ef">Log</span>]
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">MyLogger</span> w a <span style="color:#f92672">=</span> <span style="color:#66d9ef">MaybeT</span> (<span style="color:#66d9ef">Writer</span> w) a
-</code></pre></div><p>For simplicity, I will use list of strings as <code>Logs</code> and single string as <code>Log</code>. In production code, it&rsquo;s better to create separate <code>Logs</code> structure. Note that <code>Logs</code> has to be a <code>Monoid</code>, so it would be possible to combine them.</p>
-<p>I didn&rsquo;t implemented these monads myself, <code>Writer</code> is from <code>mtl</code> package, and <code>MaybeT</code> from <code>transformers</code>(that is also in <code>mtl</code> dependencies). Becaouse <code>MyLogger</code> is type alias we do not have to implement any instances.</p>
-<p>However using this type in it&rsquo;s bare form is not comfortable, so lets define some helper functions.</p>
-<h3 id="creating-mylogger">Creating MyLogger</h3>
-<p>It would be conviniet to create <code>MyLogger</code> dirctly from value, as well as from <code>Maybe</code>.
-Because <code>MyLogger</code> is a monad, to create <code>MyLogger a</code> from <code>a</code> we can just use <code>return</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">return</span> <span style="color:#f92672">::</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w a
-</code></pre></div><p>To create <code>MyLogger</code> from already existing <code>Maybe</code> we can write little helper funcsion.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#75715e">{-# LANGUAGE LambdaCase #-}</span>
-<span style="color:#a6e22e">fromMaybe</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Maybe</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w a
-<span style="color:#a6e22e">fromMaybe</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">\</span><span style="color:#66d9ef">case</span>
-  <span style="color:#66d9ef">Just</span> a  <span style="color:#f92672">-&gt;</span> return a
-  <span style="color:#66d9ef">Nothing</span> <span style="color:#f92672">-&gt;</span> mzero
-</code></pre></div><p>With <code>fromMaybe</code> we can warp our type around already exsiting functions from other libraries</p>
-<p>For monad transformers it is also convinient to add <code>run</code> function, so we can define <code>runMyLogger</code> as:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">runMyLogger</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyLogger</span> w a <span style="color:#f92672">-&gt;</span> (<span style="color:#66d9ef">Maybe</span> a, w)
-<span style="color:#a6e22e">runMyLogger</span> <span style="color:#f92672">=</span> runWriter <span style="color:#f92672">.</span> runMaybeT
-</code></pre></div><h3 id="appending-logs">Appending logs</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">appendLogs</span> <span style="color:#f92672">::</span> w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w a
-<span style="color:#a6e22e">appendLogs</span> s <span style="color:#f92672">=</span> (<span style="color:#f92672">&gt;&gt;</span>) <span style="color:#f92672">$</span> tell s
-</code></pre></div><p>We can use <code>appendLogs</code> function to append logs to already existing <code>MyLogger</code>, or combine it with return function to create <code>MyLogger</code> with log.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">returnWithLogs</span> <span style="color:#f92672">::</span> w <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w a
-<span style="color:#a6e22e">returnWithLogs</span> ls a <span style="color:#f92672">=</span> appendLogs ls <span style="color:#f92672">$</span> return an
-<span style="color:#75715e">-- Returning MyLogger with logs</span>
-<span style="color:#a6e22e">f</span> <span style="color:#f92672">::</span> a <span style="color:#f92672">-&gt;</span> b
-<span style="color:#a6e22e">someOperation</span> <span style="color:#f92672">::</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w b
-<span style="color:#a6e22e">someOperation</span> <span style="color:#f92672">=</span> returnWithLogs [<span style="color:#e6db74">&#34;Done some operation&#34;</span>] <span style="color:#f92672">.</span> f
-</code></pre></div><p>It&rsquo;s also possible to chain multiple <code>appendLogs</code> functions.</p>
-<h3 id="failing-operation">Failing operation</h3>
-<p>Let&rsquo;s take a look on second purpose of our data structure.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">failWithLogs</span> <span style="color:#f92672">::</span> w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> w a
-<span style="color:#a6e22e">failWithLogs</span> ls <span style="color:#f92672">=</span> appendLogs ls mzero
-</code></pre></div><p>Using <code>failWithLog</code> function it is possible to indicate failure, and add appropiate log to describe what failed. Since our <code>failWithLogs</code> function add logs to aggregator, we can use <code>MaybeT</code> instead of <code>ExceptT</code> in <code>MyLogger</code> definition, because what failed, can be read from log.</p>
-<h3 id="examples">Examples</h3>
-<p>Common functions:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">genValue</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">Int</span>
-<span style="color:#a6e22e">genValue</span> <span style="color:#f92672">=</span> returnWithLogs [<span style="color:#e6db74">&#34;Generated value&#34;</span>] <span style="color:#ae81ff">42</span>
-
-<span style="color:#a6e22e">divideValues</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">Int</span>
-<span style="color:#a6e22e">divideValues</span> a b
-  <span style="color:#f92672">|</span> b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">=</span> failWithLogs [<span style="color:#e6db74">&#34;Division by 0 error&#34;</span>]
-  <span style="color:#f92672">|</span> otherwise <span style="color:#f92672">=</span> returnWithLogs [<span style="color:#e6db74">&#34;Divided values&#34;</span>] <span style="color:#f92672">$</span> a `div` b
-
-<span style="color:#a6e22e">showValue</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">String</span>
-<span style="color:#a6e22e">showValue</span> <span style="color:#f92672">=</span> returnWithLogs [<span style="color:#e6db74">&#34;Showed value&#34;</span>] <span style="color:#f92672">.</span> show
-</code></pre></div><p>I will use these function to mock real program.</p>
-<h4 id="success">Success</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">myLoggerExample1</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">String</span>
-<span style="color:#a6e22e">myLoggerExample1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
-  x <span style="color:#f92672">&lt;-</span> genValue
-  y <span style="color:#f92672">&lt;-</span> divideValues x <span style="color:#ae81ff">2</span>
-  showValue y
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span> runMyLogger myLoggerExample1
-(<span style="color:#66d9ef">Just</span> <span style="color:#e6db74">&#34;21&#34;</span>,[<span style="color:#e6db74">&#34;Generated value&#34;</span>,<span style="color:#e6db74">&#34;Divided values&#34;</span>,<span style="color:#e6db74">&#34;Showed value&#34;</span>])
-<span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span>
-</code></pre></div><h4 id="failure">Failure</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">myLoggerExample2</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">String</span>
-<span style="color:#a6e22e">myLoggerExample2</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
-  x <span style="color:#f92672">&lt;-</span> genValue
-  y <span style="color:#f92672">&lt;-</span> divideValues x <span style="color:#ae81ff">0</span> 
-  showValue y
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span> runMyLogger myLoggerExample2
-(<span style="color:#66d9ef">Nothing</span>,[<span style="color:#e6db74">&#34;Generated value&#34;</span>,<span style="color:#e6db74">&#34;Division by 0 error&#34;</span>])
-<span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span>
-</code></pre></div><h2 id="myiologger">MyIOLogger</h2>
-<p>Aggregating logs is useful, but sometimes it&rsquo;s better to display or send logs while they are aggregated, instead of at the end of computations.</p>
-<h3 id="creating-myiologger">Creating MyIOLogger</h3>
-<p><code>MyIOLogger</code> is just <code>MyLogger</code> wrapped inside <code>IO</code> monad.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#75715e">{-# LANGUAGE DeriveFunctor #-}</span>
-
-<span style="color:#66d9ef">newtype</span> <span style="color:#66d9ef">MyIOLogger</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> (<span style="color:#66d9ef">IO</span> (<span style="color:#66d9ef">MyLogger</span> a))
-  <span style="color:#66d9ef">deriving</span> <span style="color:#66d9ef">Functor</span>
-
-<span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Applicative</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">where</span>
-  pure <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">.</span> return <span style="color:#f92672">.</span> return
-  <span style="color:#66d9ef">MyIOLogger</span> f <span style="color:#f92672">&lt;*&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> a <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
-    f&#39; <span style="color:#f92672">&lt;-</span> f
-    a&#39; <span style="color:#f92672">&lt;-</span> a
-    return <span style="color:#f92672">$</span> f&#39; <span style="color:#f92672">&lt;*&gt;</span> a&#39;
-
-<span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">Monad</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">where</span>
-  <span style="color:#66d9ef">MyIOLogger</span> a <span style="color:#f92672">&gt;&gt;=</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
-    (a&#39;, w1) <span style="color:#f92672">&lt;-</span> runMyLogger <span style="color:#f92672">&lt;$&gt;</span> a
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">MyIOLogger</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">case</span> a&#39; <span style="color:#66d9ef">of</span>
-            <span style="color:#66d9ef">Just</span> v  <span style="color:#f92672">-&gt;</span> f v
-            <span style="color:#66d9ef">Nothing</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">$</span> return mzero
-    (b&#39;, w2) <span style="color:#f92672">&lt;-</span> runMyLogger <span style="color:#f92672">&lt;$&gt;</span> b
-    return <span style="color:#f92672">$</span> appendLogs (w1<span style="color:#f92672">&lt;&gt;</span>w2) <span style="color:#f92672">$</span> fromMaybe b&#39;
-</code></pre></div><p>Due to lack of appropriate monad transformers, it is necessary to define <code>MyIOLogger</code> as newtype instead of as a type alias.</p>
-<p>Creating <code>MyIOLogger</code> form <code>IO</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">fromIO</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> w a
-<span style="color:#a6e22e">fromIO</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">.</span> fmap return
-</code></pre></div><p>Creating <code>MyIOLogger</code> from <code>MyLogger</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">liftLogger</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyLogger</span> w a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> w a
-<span style="color:#a6e22e">liftLogger</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">.</span> return
-</code></pre></div><p>Unwrapping <code>IO</code> from <code>MyIOLogger</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">runMyIOLogger</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyIOLogger</span> w a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> (<span style="color:#66d9ef">Maybe</span> a, w)
-<span style="color:#a6e22e">runMyIOLogger</span> (<span style="color:#66d9ef">MyIOLogger</span> a) <span style="color:#f92672">=</span> runMyLogger <span style="color:#f92672">&lt;$&gt;</span> a
-</code></pre></div><h3 id="appending-logs-1">Appending logs</h3>
-<p>The most important difference is here, in log handling</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">appendIOLogs</span> <span style="color:#f92672">::</span> (w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> ()) <span style="color:#f92672">-&gt;</span> w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> a
-<span style="color:#a6e22e">appendIOLogs</span> f ls (<span style="color:#66d9ef">MyIOLogger</span> a) <span style="color:#f92672">=</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
-  <span style="color:#66d9ef">_</span>  <span style="color:#f92672">&lt;-</span> f ls
-  appendLogs ls <span style="color:#f92672">&lt;$&gt;</span> a
-
-<span style="color:#a6e22e">returnWithIOLogs</span> <span style="color:#f92672">::</span> (w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> ()) <span style="color:#f92672">-&gt;</span> w <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> w a
-<span style="color:#a6e22e">returnWithIOLogs</span> f ls <span style="color:#f92672">=</span> appendIOLogs f ls <span style="color:#f92672">.</span> return 
-
-<span style="color:#a6e22e">failWithIOLogs</span> <span style="color:#f92672">::</span> (w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> ()) <span style="color:#f92672">-&gt;</span> w <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> w a
-<span style="color:#a6e22e">failWithIOLogs</span> f ls <span style="color:#f92672">=</span> appendIOLogs f ls <span style="color:#f92672">$</span> liftLogger mzeroo
-</code></pre></div><p>Instead of just aggregating logs, <code>MyIOLogger</code> will execute an <code>IO</code> action of them. It can be used to display them on console, send to server, etc.</p>
-<h3 id="example">Example</h3>
-<p>Common functions:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">import</span> System.Random
-
-<span style="color:#a6e22e">genIOValue</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">Int</span>
-<span style="color:#a6e22e">genIOValue</span> <span style="color:#f92672">=</span> appendIOLogs print [<span style="color:#e6db74">&#34;Generated random value&#34;</span>] <span style="color:#f92672">$</span> fromIO randomIO
-
-<span style="color:#a6e22e">divideIOValues</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">Int</span>
-<span style="color:#a6e22e">divideIOValues</span> a b 
-  <span style="color:#f92672">|</span> b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">=</span> failWithIOLogs print [<span style="color:#e6db74">&#34;Division by 0 error&#34;</span>]
-  <span style="color:#f92672">|</span> otherwise <span style="color:#f92672">=</span> returnWithIOLogs print [<span style="color:#e6db74">&#34;Divided values&#34;</span>] <span style="color:#f92672">$</span> a `div` b
-
-<span style="color:#a6e22e">showIOValue</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">String</span>
-<span style="color:#a6e22e">showIOValue</span> <span style="color:#f92672">=</span> returnWithIOLogs print [<span style="color:#e6db74">&#34;Showed value&#34;</span>] <span style="color:#f92672">.</span> show
-</code></pre></div><p>In examples I used <code>print</code> as logs handling function, but it can be anything with signature <code>Logs -&gt; IO()</code>.</p>
-<h4 id="success-1">Success</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">myIOLoggerExample1</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">String</span>
-<span style="color:#a6e22e">myIOLoggerExample1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
-  x <span style="color:#f92672">&lt;-</span> genIOValue
-  y <span style="color:#f92672">&lt;-</span> divideIOValues x <span style="color:#ae81ff">2</span>
-  showIOValue y
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span> runMyIOLogger myIOLoggerExample1
-[<span style="color:#e6db74">&#34;Generated random value&#34;</span>]
-[<span style="color:#e6db74">&#34;Divided values&#34;</span>]
-[<span style="color:#e6db74">&#34;Showed value&#34;</span>]
-(<span style="color:#66d9ef">Just</span> <span style="color:#e6db74">&#34;13&#34;</span>,[<span style="color:#e6db74">&#34;Generated random value&#34;</span>,<span style="color:#e6db74">&#34;Divided values&#34;</span>,<span style="color:#e6db74">&#34;Showed value&#34;</span>])
-<span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span> 
-</code></pre></div><h4 id="failure-1">Failure</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">myIOLoggerExample2</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">MyIOLogger</span> <span style="color:#66d9ef">Logs</span> <span style="color:#66d9ef">String</span>
-<span style="color:#a6e22e">myIOLoggerExample2</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
-  x <span style="color:#f92672">&lt;-</span> genIOValue
-  y <span style="color:#f92672">&lt;-</span> divideIOValues x <span style="color:#ae81ff">0</span>
-  showIOValue y
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span> runMyIOLogger myIOLoggerExample2
-[<span style="color:#e6db74">&#34;Generated random value&#34;</span>]
-[<span style="color:#e6db74">&#34;Division by 0 error&#34;</span>]
-(<span style="color:#66d9ef">Nothing</span>,[<span style="color:#e6db74">&#34;Generated random value&#34;</span>,<span style="color:#e6db74">&#34;Division by 0 error&#34;</span>]))
-<span style="color:#a6e22e">ghci</span><span style="color:#f92672">&gt;</span> 
-</code></pre></div><h2 id="ps">PS</h2>
-<p>Source code is <a href="https://github.com/t4ccer/crappy-loggers/tree/7edf891acd32f40ca3304ec8c49a9da8b5d85c62">here</a></p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Extensible IRC Bot in Haskell</title>
-            <link>/posts/extensible-irc-bot-in-haskell/</link>
-            <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
-            
-            <guid>/posts/extensible-irc-bot-in-haskell/</guid>
-            <description>Abstract To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.
+    </item>
+    
+    <item>
+      <title>Extensible IRC Bot in Haskell</title>
+      <link>https://t4ccer.com/posts/extensible-irc-bot-in-haskell/</link>
+      <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
+      
+      <guid>https://t4ccer.com/posts/extensible-irc-bot-in-haskell/</guid>
+      <description>Abstract To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.
 Usage Bot is configurable in app/Main.hs file, but example configurations are availble in src/Examples/*.hs.
 Base bot Lets look at src/Examples/Base.hs file now. File contains run function that starts IRC bot in an infinite loop, and handleEvent function that handles chat events.
 module Examples.Base where import ChatEvents import ExtIrcBot run :: IO () run = runBot BotSettings { host =&amp;#34;irc.</description>
-            <content type="html"><![CDATA[<h2 id="abstract">Abstract</h2>
-<p>To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.</p>
-<h2 id="usage">Usage</h2>
-<p>Bot is configurable in <code>app/Main.hs</code> file, but example configurations are availble in <code>src/Examples/*.hs</code>.</p>
-<h4 id="base-bot">Base bot</h4>
-<p>Lets look at <code>src/Examples/Base.hs</code> file now. File contains <code>run</code> function that starts IRC bot in an infinite loop, and <code>handleEvent</code> function that handles chat events.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">module</span> Examples.Base <span style="color:#66d9ef">where</span>
-
-<span style="color:#66d9ef">import</span>           ChatEvents
-<span style="color:#66d9ef">import</span>           ExtIrcBot
-
-<span style="color:#a6e22e">run</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
-<span style="color:#a6e22e">run</span> <span style="color:#f92672">=</span> runBot <span style="color:#66d9ef">BotSettings</span>
-  { host <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;irc.freenode.net&#34;</span>
-  , port <span style="color:#f92672">=</span> <span style="color:#ae81ff">6667</span>
-  , name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MyBot&#34;</span>
-  , channels <span style="color:#f92672">=</span> <span style="color:#66d9ef">[]</span>
-  , handler <span style="color:#f92672">=</span>  handleEvent
-  , async_handlers <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-  }
-
-<span style="color:#a6e22e">handleEvent</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Handler</span>
-<span style="color:#a6e22e">handleEvent</span> <span style="color:#66d9ef">_</span> <span style="color:#f92672">=</span> return <span style="color:#f92672">$</span> <span style="color:#66d9ef">NoAction</span>
-</code></pre></div><p><code>Run</code> function simply calls <code>runBot</code> with <code>BotSettings</code> parameter. so lets take a look on <code>BotSettings</code> type.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">BotSettings</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">BotSettings</span>
-  { host           <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>   <span style="color:#75715e">-- ^ IRC server hostname</span>
-  , port           <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>   <span style="color:#75715e">-- ^ IRC server port. 6667 by default</span>
-  , name           <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>      <span style="color:#75715e">-- ^ Bot name</span>
-  , channels       <span style="color:#f92672">::</span> [<span style="color:#66d9ef">String</span>] <span style="color:#75715e">-- ^ Channels that bot&#39;ll join after start</span>
-  , handler        <span style="color:#f92672">::</span> <span style="color:#66d9ef">Handler</span>  <span style="color:#75715e">-- ^ Chat event handler function</span>
-  , async_handlers <span style="color:#f92672">::</span> <span style="color:#66d9ef">Bool</span>     <span style="color:#75715e">-- ^ If True each handler will be called </span>
-  }                            <span style="color:#75715e">--   with forkIO</span>
-</code></pre></div><p>I believe that with comments structure is pretty self-explanatory. So our bot will connect to freenode IRC server and do nothing.</p>
-<h4 id="echo-bot">Echo bot</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">module</span> Examples.EchoBot <span style="color:#66d9ef">where</span>
-
-<span style="color:#66d9ef">import</span>           ChatEvents
-<span style="color:#66d9ef">import</span>           ExtIrcBot
-<span style="color:#66d9ef">import</span>           Utils
-
-<span style="color:#a6e22e">run</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
-<span style="color:#a6e22e">run</span> <span style="color:#f92672">=</span> runBot <span style="color:#66d9ef">BotSettings</span>
-  { host <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;irc.freenode.net&#34;</span>
-  , port <span style="color:#f92672">=</span> <span style="color:#ae81ff">6667</span>
-  , name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;MyEchoBot&#34;</span>
-  , channels <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;#botwar&#34;</span>]
-  , handler <span style="color:#f92672">=</span>  handleEvent
-  , async_handlers <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-  }
-
-<span style="color:#a6e22e">handleEvent</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Handler</span>
-<span style="color:#a6e22e">handleEvent</span> (<span style="color:#66d9ef">ChannelMessage</span> author chan msg) <span style="color:#f92672">=</span> return <span style="color:#f92672">$</span> 
-  <span style="color:#66d9ef">SendChannelMessage</span> chan (humanizeName author <span style="color:#f92672">++</span> <span style="color:#e6db74">&#34; said: &#34;</span> <span style="color:#f92672">++</span> msg)
-<span style="color:#a6e22e">handleEvent</span> <span style="color:#66d9ef">_</span> <span style="color:#f92672">=</span> return <span style="color:#f92672">$</span> <span style="color:#66d9ef">NoAction</span>
-</code></pre></div><p>Ok, <code>run</code> function looks rather simmilar to previous example, so lets focus now on <code>eventHandler</code> function. <code>eventHandler</code> is of type <code>Handler</code> wich is simple type alias.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Handler</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">ChatEvent</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> <span style="color:#66d9ef">ChatAction</span>
-</code></pre></div><p><code>Handler</code> returns <code>IO ChatAction</code> so it is possible to make a call to database or perform any other <code>IO</code> action on <code>ChatEvent</code>. But what is <code>ChatEvent</code>?<br>
-<code>ChatEvent</code> is an abstract type that represents certain event that happened on IRC chat (<code>ChatEvent</code> is general enough to use it also in different chats). In EchoBot example <code>handleEvent</code> function catches <code>ChannelMessage</code> event which contains author of message, channel, and message itself.</p>
-<p>So bot catches all messages on all channels defined in <code>BotSettings</code> and echos its back:</p>
-<pre><code>t4ccer: My message
-MyEchoBot: t4ccer said: My message
-</code></pre><h2 id="deeper-look">Deeper look</h2>
-<p>Bot &lsquo;framework&rsquo; looks pretty simple but under the hood contains several layers.</p>
-<h4 id="receiving">Receiving</h4>
-<p>Socket -&gt; MegaParsec -&gt; IrcCommand -&gt; ChatEvent</p>
-<p>IRC operates on TCP socket and IRC protocol is line-based, it means that each command is separated by newline(<code>\r\n</code>)</p>
-<p>Each line from socket is then passed to parsers created using <code>megaparsec</code> parsing framework(Yes, <code>megaparsec</code> is overkill, but whole bot was created for educational purposes only).</p>
-<p><code>megaparsec</code> produces <code>IrcCommand</code>s. If <code>IrcCommand</code> is <code>PING</code> then <code>PONG</code> is sent in response, but otherwise <code>IrcCommand</code> is transformed into <code>ChatEvent</code>, and finally <code>ChatEvent</code>s are handled by handler defined by us.</p>
-<h4 id="sending">Sending</h4>
-<p>ChatAction -&gt; IrcCommand -&gt; Stringify -&gt; Socket</p>
-<p><code>ChatAction</code> produced by our handler is simply transformed into <code>IrcCommand</code> which is then stringified into correct IRC command <code>String</code>. Lastly, stringified command is sent through socket.</p>
-<h2 id="setting-up-bot">Setting up bot</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/t4ccer/ext-irc-bot
-cd ext-irc-bot
-stack run
-</code></pre></div><h2 id="ps">PS</h2>
-<p>For further reading and development I recommend taking a look at <a href="https://tools.ietf.org/html/rfc1459">RFC 1459 - Internet Relay Chat Protocol</a>.</p>
-<p>For testing bot, and in examples, I used <code>#botwar</code> IRC channel on <code>irc.freenode.net</code> server. <code>#botwar</code> channel is full of various bots so my bot won&rsquo;t disturb conversations on &lsquo;traditional&rsquo; channels.</p>
-<p>Repo is <a href="https://github.com/t4ccer/ext-irc-bot">here</a></p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Simulating card games: War</title>
-            <link>/posts/simulating-card-games-war/</link>
-            <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
-            
-            <guid>/posts/simulating-card-games-war/</guid>
-            <description>Prologue Card game war is very popular because of it&amp;rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.
+    </item>
+    
+    <item>
+      <title>Simulating card games: War</title>
+      <link>https://t4ccer.com/posts/simulating-card-games-war/</link>
+      <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://t4ccer.com/posts/simulating-card-games-war/</guid>
+      <description>Prologue Card game war is very popular because of it&amp;rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.
 Possible strategies Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:
  Starting from player A&amp;rsquo;s pile Starting from player B&amp;rsquo;s pile Starting from player&amp;rsquo;s that won pile  Cards are always collected interchangeably from 2 piles so only difference is from wich to start from.</description>
-            <content type="html"><![CDATA[<h2 id="prologue">Prologue</h2>
-<p><a href="https://en.wikipedia.org/wiki/War_(card_game)">Card game war</a> is very popular because of it&rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.</p>
-<h2 id="possible-strategies">Possible strategies</h2>
-<p>Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:</p>
-<ul>
-<li>Starting from player A&rsquo;s pile</li>
-<li>Starting from player B&rsquo;s pile</li>
-<li>Starting from player&rsquo;s that won pile</li>
-</ul>
-<p>Cards are always collected interchangeably from 2 piles so only difference is from wich to start from.</p>
-<h2 id="simulations">Simulations</h2>
-<p>I&rsquo;d wrote some python scrippts to run simulations for me. Source code is available on my Github (link at the end). When game reaches 10.000 rounds i abort it and also save data about it. I was doing it because of possibility of never-ending games.</p>
-<h2 id="results">Results</h2>
-<p>All simulations were run on 100.000 random card shuffles but every strategy was run on the same 100.000 card shuffles.<br>
-Winnig rates are calculated only for games that ended before 10.000 rounds.<br>
-I also attached json data for each strategy result.</p>
-<h3 id="starting-from-player-as-pile">Starting from player A&rsquo;s pile</h3>
-<p>That was first strategy that I implemented. Player A had noticably higher winning rate, but only 59% of games ended before 10.000 rounds, and average game took 1735 rounds.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-   <span style="color:#f92672">&#34;win_a&#34;</span>: <span style="color:#ae81ff">33587</span>,
-   <span style="color:#f92672">&#34;win_b&#34;</span>: <span style="color:#ae81ff">25609</span>,
-   <span style="color:#f92672">&#34;draw_move_limit&#34;</span>: <span style="color:#ae81ff">40804</span>,
-   <span style="color:#f92672">&#34;draw_no_cards&#34;</span>: <span style="color:#ae81ff">0</span>,
-   <span style="color:#f92672">&#34;avg_moves&#34;</span>: <span style="color:#ae81ff">1735.0262179877018</span>,
-   <span style="color:#f92672">&#34;draw_after&#34;</span>: <span style="color:#ae81ff">10000</span>,
-   <span style="color:#f92672">&#34;games&#34;</span>: <span style="color:#ae81ff">100000</span>,
-   <span style="color:#f92672">&#34;method&#34;</span>: <span style="color:#e6db74">&#34;play_a_first&#34;</span>,
-   <span style="color:#f92672">&#34;no_draw&#34;</span>: <span style="color:#ae81ff">59196</span>,
-   <span style="color:#f92672">&#34;no_draw_chance&#34;</span>: <span style="color:#ae81ff">0.59196</span>,
-   <span style="color:#f92672">&#34;win_a_chance&#34;</span>: <span style="color:#ae81ff">0.5673863098858031</span>,
-   <span style="color:#f92672">&#34;win_b_chance&#34;</span>: <span style="color:#ae81ff">0.4326136901141969</span>
-}
-</code></pre></div><h3 id="starting-from-player-bs-pile">Starting from player B&rsquo;s pile</h3>
-<p>Results are nearly the same as in previous strategy but winning rates are reversed.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-   <span style="color:#f92672">&#34;win_a&#34;</span>: <span style="color:#ae81ff">25240</span>,
-   <span style="color:#f92672">&#34;win_b&#34;</span>: <span style="color:#ae81ff">33976</span>,
-   <span style="color:#f92672">&#34;draw_move_limit&#34;</span>: <span style="color:#ae81ff">40784</span>,
-   <span style="color:#f92672">&#34;draw_no_cards&#34;</span>: <span style="color:#ae81ff">0</span>,
-   <span style="color:#f92672">&#34;avg_moves&#34;</span>: <span style="color:#ae81ff">1728.1025905160768</span>,
-   <span style="color:#f92672">&#34;draw_after&#34;</span>: <span style="color:#ae81ff">10000</span>,
-   <span style="color:#f92672">&#34;games&#34;</span>: <span style="color:#ae81ff">100000</span>,
-   <span style="color:#f92672">&#34;method&#34;</span>: <span style="color:#e6db74">&#34;play_b_first&#34;</span>,
-   <span style="color:#f92672">&#34;no_draw&#34;</span>: <span style="color:#ae81ff">59216</span>,
-   <span style="color:#f92672">&#34;no_draw_chance&#34;</span>: <span style="color:#ae81ff">0.59216</span>,
-   <span style="color:#f92672">&#34;win_a_chance&#34;</span>: <span style="color:#ae81ff">0.4262361523912456</span>,
-   <span style="color:#f92672">&#34;win_b_chance&#34;</span>: <span style="color:#ae81ff">0.5737638476087544</span>
-}
-</code></pre></div><h3 id="starting-from-players-that-won-pile">Starting from player&rsquo;s that won pile</h3>
-<p>When collecting cards from winner&rsquo;s pile first win-rates were equal. Average game took only 279 rounds, comparing to previous 2 strategies it is really small number. Also no game was stopped becausse of rounds limit.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-   <span style="color:#f92672">&#34;win_a&#34;</span>: <span style="color:#ae81ff">49509</span>,
-   <span style="color:#f92672">&#34;win_b&#34;</span>: <span style="color:#ae81ff">50491</span>,
-   <span style="color:#f92672">&#34;draw_move_limit&#34;</span>: <span style="color:#ae81ff">0</span>,
-   <span style="color:#f92672">&#34;draw_no_cards&#34;</span>: <span style="color:#ae81ff">0</span>,
-   <span style="color:#f92672">&#34;avg_moves&#34;</span>: <span style="color:#ae81ff">278.75586</span>,
-   <span style="color:#f92672">&#34;draw_after&#34;</span>: <span style="color:#ae81ff">10000</span>,
-   <span style="color:#f92672">&#34;games&#34;</span>: <span style="color:#ae81ff">100000</span>,
-   <span style="color:#f92672">&#34;method&#34;</span>: <span style="color:#e6db74">&#34;play_winner_first&#34;</span>,
-   <span style="color:#f92672">&#34;no_draw&#34;</span>: <span style="color:#ae81ff">100000</span>,
-   <span style="color:#f92672">&#34;no_draw_chance&#34;</span>: <span style="color:#ae81ff">1.0</span>,
-   <span style="color:#f92672">&#34;win_a_chance&#34;</span>: <span style="color:#ae81ff">0.49509</span>,
-   <span style="color:#f92672">&#34;win_b_chance&#34;</span>: <span style="color:#ae81ff">0.50491</span>
-}
-</code></pre></div><h2 id="conclusion">Conclusion</h2>
-<p>There is visible difference in winning rates between strategies. Best way is to collect cards always starting from your pile, but to make this strategy work you also has to &lsquo;force&rsquo; your opponent to collect cards starting from your pile also.<br>
-So is there a better way of playing war? Theoretically yes, practically no.</p>
-<h2 id="source-code">Source code</h2>
-<p><a href="https://github.com/t4ccer/stats-of-war">link</a></p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Noisy Art - Images using noise</title>
-            <link>/posts/noisy-art/</link>
-            <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
-            
-            <guid>/posts/noisy-art/</guid>
-            <description>In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
+    </item>
+    
+    <item>
+      <title>Noisy Art - Images using noise</title>
+      <link>https://t4ccer.com/posts/noisy-art/</link>
+      <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
+      
+      <guid>https://t4ccer.com/posts/noisy-art/</guid>
+      <description>In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
 Example map of OpenSimplex noise looks like that:
 At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</description>
-            <content type="html"><![CDATA[<p>In this article I will try to create some kind of &lsquo;art&rsquo; using noise. For noise generating I am using my own packet: <a href="https://github.com/t4ccer/Noisy">Noisy</a>. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.</p>
-<p>Example map of OpenSimplex noise looks like that:</p>
-<p><img src="/img/NoisyArt/noise.png" alt=""></p>
-<p>At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</p>
-<p><img src="/img/NoisyArt/grid.png" alt=""></p>
-<p>After that particles are dropped on that field, and its position is affected by vectors. When particle moves off screen its moved to the other side(like in snake game). When particle moves, it creates line from its previous position to its current position.</p>
-<p>Following parameters can be easily changed:</p>
-<ul>
-<li>Alpha channel of particle tail</li>
-<li>Particle count</li>
-<li>Vector grid size</li>
-<li>Vector force</li>
-<li>X and Y axis noise sampling</li>
-<li>Z axis noise sampling</li>
-<li>Screenshot save rate</li>
-<li>Vector angle range</li>
-</ul>
-<p>Here are some of the best images I generated using that method (Unfortunately I didn&rsquo;t note parameters of each image).</p>
-<p><img src="/img/NoisyArt/flowfield1.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield2.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield3.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield4.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield5.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield6.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield7.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield8.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield9.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield10.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield11.png" alt=""></p>
-<p><img src="/img/NoisyArt/flowfield12.png" alt=""></p>
-<p>Code is availble <a href="https://github.com/t4ccer/NoiseFlowField">here</a>. Feel free to download, experiment with parameters and create own images.</p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>Dister32 - Part 1</title>
-            <link>/posts/dister32-part1/</link>
-            <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
-            
-            <guid>/posts/dister32-part1/</guid>
-            <description>Introduction Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller ESP32. ESP32 has built-in wifi module so communication between modules will be fairly simple.
+    </item>
+    
+    <item>
+      <title>Dister32 - Part 1</title>
+      <link>https://t4ccer.com/posts/dister32-part1/</link>
+      <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://t4ccer.com/posts/dister32-part1/</guid>
+      <description>Introduction Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller ESP32. ESP32 has built-in wifi module so communication between modules will be fairly simple.
 ESP-32s module
 The article will be split into 3 parts.
 In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me.</description>
-            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
-<p>Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller <a href="https://www.espressif.com/en/products/socs/esp32/overview">ESP32</a>. ESP32 has built-in wifi module so communication between modules will be fairly simple.</p>
-<p><img src="/img/Dister32_1/esp32.png" alt="ESP32">
-ESP-32s module</p>
-<p>The article will be split into 3 parts.<br>
-In the first part, I will describe how the cluster will work and implement the simplest features. The second part will be published when ordered PCBs will arrive at me. And last, third part will describe finished project and then I will publish sourcecode for nodes, master, and dashboard. Also in the last part, I will provide all necessary instructions to create own ESP32 cluster.</p>
-<p>At first, let me explain some concepts:</p>
-<ul>
-<li>Node - is an esp32 module connected to MQTT broker.</li>
-<li>Master - is a server connected to MQTT broker that manages nodes and images.</li>
-<li>Image - is a compiled, binary program for node.</li>
-<li>Pool - is a group of nodes running the same image.</li>
-</ul>
-<p>Cluster will work using <a href="http://mqtt.org/">MQTT</a> protocole to communicate with master server, and json to serialize data.</p>
-<h3 id="node">Node</h3>
-<p>Node is ESP32 microcontroller that runs dister32-compatible image. Each node is connected to mqtt broker via WiFi. Name of node is its MAC address without colons. Each node is described by its name, IP address, status (<code>OK</code>/<code>Error</code>/<code>Uploading</code>) and current image. Also, each node is running <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/ota.html">OTA</a> mechanism, therefore, its possible to update its firmware wirelessly.</p>
-<h3 id="master">Master</h3>
-<p>Master server manages nodes and pools. Master also provides HTTP REST API so it&rsquo;s easy to create a web dashboard(I&rsquo;ll try to create it soon).</p>
-<h3 id="pool">Pool</h3>
-<p>Pool has assigned image, nodes and count of active nodes. Master is making that exactly <code>count of active nodes</code> nodes will run assigned image. The rest of nodes will be inactive and ready to work if any of running node disconnects.</p>
-<h3 id="features">Features</h3>
-<ul>
-<li>
-<p>Welcome messages. Node on boot sends its properties(name, image, etc) with topic <code>dister32/NODE_NAME/welcome</code>. The same message is sent when node receives message with topic <code>dister32/NODE_NAME/introduce</code>.</p>
-</li>
-<li>
-<p>Heartbeat. Master every <code>delay</code> milliseconds  sends message with topic <code>dister32/master/heartbeat/request</code>. Each node has to respond with <code>dister32/NODE_NAME/heartbeat/response</code>. If doesn&rsquo;t after <code>2*delay</code> ms its status is changed to <code>Error</code>. If master receives response from node that is not registered in cluster, master sends <code>dister32/NODE_NAME/introduce</code> message to get info about this node.</p>
-</li>
-<li>
-<p>LED control. ESP32 has built-in LED so let&rsquo;s use it. Node can be in one of 3 states(<code>On</code>/<code>Off</code>/<code>Blink</code>). When node receives message <code>dister32/NODE_NAME/led</code> with content corresponding  to LED mode, it changes its led to that mode.</p>
-</li>
-</ul>
-<h3 id="pcb">PCB</h3>
-<p>To easily stack multiple ESP32 nodes I designed simple PCB, with power connectors and female goldpins for esp module. I designed PCB using <a href="https://easyeda.com/">EasyEDA</a> software and ordered on <a href="https://jlcPCB.com/">JLCPCB</a>. PCB is 6x6cm with 3mm holes on each corner, with 5mm from edge to center of the hole.</p>
-<p><img src="/img/Dister32_1/pcb1.png" alt="PCB"></p>
-<p>I will publish the next part when PCBs arrive at me(it can take a little, I live in Europe).</p>
-<p>If you want, for any reason, create your own cluster, I will publish all gerber files, source code, schematics, and tutorials when I publish the last part.</p>
-<p>Note: Project is made just for fun, do not use in any serious environment.</p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>SharpNEAT Tutorial</title>
-            <link>/posts/sharpneat-tutorial/</link>
-            <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
-            
-            <guid>/posts/sharpneat-tutorial/</guid>
-            <description>SharpNEAT is great library for developing NEAT networks, but unfortunatly is very poorly documented, so I created some boilerplate code to kickstart Your project.
+    </item>
+    
+    <item>
+      <title>SharpNEAT Tutorial</title>
+      <link>https://t4ccer.com/posts/sharpneat-tutorial/</link>
+      <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
+      
+      <guid>https://t4ccer.com/posts/sharpneat-tutorial/</guid>
+      <description>SharpNEAT is great library for developing NEAT networks, but unfortunatly is very poorly documented, so I created some boilerplate code to kickstart Your project.
 // inputCount - Count of inout neurons // outputCount - Count of output neurons // specimenCount - Specimen count in each generation  var neatGenomeFactory = new NeatGenomeFactory(inputCount, outputCount); var genomeList = neatGenomeFactory.CreateGenomeList(specimenCount, 0); var neatParameters = new NeatEvolutionAlgorithmParameters { SpecieCount = specimenCount }; var distanceMetric = new ManhattanDistanceMetric(); var speciationStrategy = new ParallelKMeansClusteringStrategy&amp;lt;NeatGenome&amp;gt; (distanceMetric); var complexityRegulationStrategy = new NullComplexityRegulationStrategy(); var network = new NeatEvolutionAlgorithm&amp;lt;NeatGenome&amp;gt; (neatParameters, speciationStrategy, complexityRegulationStrategy); var activationScheme = NetworkActivationScheme .</description>
-            <content type="html"><![CDATA[<p><a href="https://github.com/colgreen/sharpneat">SharpNEAT</a> is great library for developing <a href="https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies">NEAT</a> networks, but unfortunatly is very poorly documented, so I created some boilerplate code to kickstart Your project.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">// inputCount - Count of inout neurons
-</span><span style="color:#75715e">// outputCount - Count of output neurons
-</span><span style="color:#75715e">// specimenCount - Specimen count in each generation
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">var</span> neatGenomeFactory = <span style="color:#66d9ef">new</span> NeatGenomeFactory(inputCount, outputCount);
-<span style="color:#66d9ef">var</span> genomeList = neatGenomeFactory.CreateGenomeList(specimenCount, <span style="color:#ae81ff">0</span>);
-<span style="color:#66d9ef">var</span> neatParameters = <span style="color:#66d9ef">new</span> NeatEvolutionAlgorithmParameters
-{
-    SpecieCount = specimenCount
-};
-
-<span style="color:#66d9ef">var</span> distanceMetric = <span style="color:#66d9ef">new</span> ManhattanDistanceMetric();
-<span style="color:#66d9ef">var</span> speciationStrategy = <span style="color:#66d9ef">new</span> ParallelKMeansClusteringStrategy&lt;NeatGenome&gt;
-    (distanceMetric);
-
-<span style="color:#66d9ef">var</span> complexityRegulationStrategy = <span style="color:#66d9ef">new</span> NullComplexityRegulationStrategy();
-
-<span style="color:#66d9ef">var</span> network = <span style="color:#66d9ef">new</span> NeatEvolutionAlgorithm&lt;NeatGenome&gt;
-    (neatParameters, speciationStrategy, complexityRegulationStrategy);
-
-<span style="color:#66d9ef">var</span> activationScheme = NetworkActivationScheme
-    .CreateCyclicFixedTimestepsScheme(<span style="color:#ae81ff">1</span>);
-<span style="color:#66d9ef">var</span> genomeDecoder = <span style="color:#66d9ef">new</span> NeatGenomeDecoder(activationScheme);
-
-<span style="color:#66d9ef">var</span> phenomeEvaluator = <span style="color:#66d9ef">new</span> YourPhenomeEvaluator();
-<span style="color:#66d9ef">var</span> genomeListEvaluator = 
-    <span style="color:#66d9ef">new</span> ParallelGenomeListEvaluator&lt;NeatGenome, IBlackBox&gt;
-        (genomeDecoder, phenomeEvaluator, parallelOptions);
-
-network.Initialize(genomeListEvaluator, neatGenomeFactory, genomeList);
-
-<span style="color:#75715e">//Optional
-</span><span style="color:#75715e"></span>network.UpdateScheme = <span style="color:#66d9ef">new</span> UpdateScheme(logRate);
-network.UpdateEvent += Ea_UpdateEvent;
-
-network.StartContinue();
-<span style="color:#66d9ef">while</span> (network.RunState != RunState.Paused)
-{
-    Thread.Sleep(<span style="color:#ae81ff">100</span>);
-}
-network.Stop();
-</code></pre></div><p>I know, it looks complicated, but let explain it line by line.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> neatGenomeFactory = <span style="color:#66d9ef">new</span> NeatGenomeFactory(inputCount, outputCount);
-</code></pre></div><p>At first, create factory for initial population with specified input and output neurons.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> genomeList = neatGenomeFactory.CreateGenomeList(specimenCount, <span style="color:#ae81ff">0</span>);
-</code></pre></div><p>Then, create initial genome list with length of <code>specimenCount</code> and first generation number <code>0</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> neatParameters = <span style="color:#66d9ef">new</span> NeatEvolutionAlgorithmParameters
-{
-    SpecieCount = specimenCount
-};
-</code></pre></div><p>Here create parameters for your network. Absolute minimum that you have to provide is specimen count in each generation. It should be the same as length of <code>genomeList</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> distanceMetric = <span style="color:#66d9ef">new</span> ManhattanDistanceMetric();
-<span style="color:#66d9ef">var</span> speciationStrategy = <span style="color:#66d9ef">new</span> ParallelKMeansClusteringStrategy&lt;NeatGenome&gt;
-    (distanceMetric);
-</code></pre></div><p>Here things start to be a bit kore tricky. To create <a href="http://en.wikipedia.org/wiki/K-means_clustering">k-means clustering method</a> You must provide <code>IDistanceMetric</code>. I used <code>ManhattanDistanceMetric</code>. About various types of distance metrics You can read <a href="https://medium.com/analytics-vidhya/various-types-of-distance-metrics-machine-learning-cc9d4698c2da">here</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> complexityRegulationStrategy = <span style="color:#66d9ef">new</span> NullComplexityRegulationStrategy();
-</code></pre></div><p>Complexity regulation strategies reguletes if Your network tend to be more simple or more complex. <code>NullComplexityRegulationStrategy</code> is just strategy that is fixed to complexifying your network. In my cases it worked best.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> network = <span style="color:#66d9ef">new</span> NeatEvolutionAlgorithm&lt;NeatGenome&gt;
-    (neatParameters, speciationStrategy, complexityRegulationStrategy);
-</code></pre></div><p><code>NeatEvolutionAlgorithm&lt;NeatGenome&gt;</code> is just fancy word for your neural network. Just provide already created objects and let sharpneat do magic.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> activationScheme = NetworkActivationScheme
-    .CreateCyclicFixedTimestepsScheme(<span style="color:#ae81ff">1</span>);
-<span style="color:#66d9ef">var</span> genomeDecoder = <span style="color:#66d9ef">new</span> NeatGenomeDecoder(activationScheme);
-</code></pre></div><p>To create <code>genomeDecoder</code> you have to create <code>activationScheme</code> first.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> phenomeEvaluator = <span style="color:#66d9ef">new</span> YourPhenomeEvaluator();
-</code></pre></div><p>At this moment You have to write your first own code. You have to create class that can score fitness of your network.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">YourPhenomeEvaluator</span> : IPhenomeEvaluator&lt;IBlackBox&gt;
-{
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">ulong</span> EvaluationCount =&gt; <span style="color:#ae81ff">0</span>;
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">bool</span> StopConditionSatisfied =&gt; shouldEnd;
-    <span style="color:#66d9ef">bool</span> shouldEnd = <span style="color:#66d9ef">false</span>;
-    <span style="color:#66d9ef">public</span> FitnessInfo Evaluate(IBlackBox phenome)
-    {
-        <span style="color:#75715e">//phenome.InputSignalArray[index] - input neuron array
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//phenome.OutputSignalArray[index] - output neuron array
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> FitnessInfo(fitness, fitness);
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Reset() { }
-}
-</code></pre></div><p>What <code>IPhenomeEvaluator</code> should do is quite obvious but let explain it too.</p>
-<p><code>EvaluationCount</code> is count of all evaluations of Your network(You don&rsquo;t have to implement this unless you want to use it).</p>
-<p>When <code>StopConditionSatisfied</code> returns <code>true</code> training of Your network stops. Very usefull if e.g. network achieved maximum fitness.</p>
-<p><code>Evaluate</code> Method takes network as an input and returns its fitness.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">var</span> genomeListEvaluator = 
-    <span style="color:#66d9ef">new</span> ParallelGenomeListEvaluator&lt;NeatGenome, IBlackBox&gt;
-        (genomeDecoder, phenomeEvaluator, parallelOptions);
-</code></pre></div><p><code>genomeListEvaluator</code> is able to evaluate whole list of genoms, using your phenome evaluator.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">network.Initialize(genomeListEvaluator, neatGenomeFactory, genomeList);
-</code></pre></div><p>Initialize alread created network with <code>genomeListEvaluator</code>, <code>neatGenomeFactory</code> and <code>genomeList</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#75715e">//Optional
-</span><span style="color:#75715e"></span>network.UpdateScheme = <span style="color:#66d9ef">new</span> UpdateScheme(logRate);
-network.UpdateEvent += Ea_UpdateEvent;
-</code></pre></div><p>Each <code>logRate</code> generations <code>Ea_UpdateEvent</code> will be called.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">void</span> Ea_UpdateEvent(<span style="color:#66d9ef">object</span> sender, EventArgs e)
-{
-    <span style="color:#66d9ef">var</span> network = (NeatEvolutionAlgorithm&lt;NeatGenome&gt;)sender;
-    Console.WriteLine(<span style="color:#e6db74">$&#34;Generation={network.CurrentGeneration} 
-</span><span style="color:#e6db74">        bestFitness={network.Statistics._maxFitness:N6} 
-</span><span style="color:#e6db74">        meanFitness={network.Statistics._meanFitness:N6}&#34;</span>);
-}
-</code></pre></div><p><code>Ea_UpdateEvent</code> can e.g. print network progress.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp">network.StartContinue();
-</code></pre></div><p>Start your network</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-csharp" data-lang="csharp"><span style="color:#66d9ef">while</span> (network.RunState != RunState.Paused)
-{
-    Thread.Sleep(<span style="color:#ae81ff">100</span>);
-}
-network.Stop();
-</code></pre></div><p>Wait untill network is paused(e.g. when <code>YourPhenomeEvaluator.StopConditionSatisfied</code> returns <code>true</code>). Training runs in another thread so You have to block main thred, otherwise program will exit.</p>
-<p>Those settings worked best for me, it won&rsquo;t be optimal for every project so don&rsquo;t worry to experiment with settings and parameters on your own.</p>
-<p>I hope it will halp You creating Your own awesome machine learning project.</p>
-<p>NOTE: I&rsquo;m not a professional data scientist.</p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>DashAI - Geometry Dash AI using NEAT</title>
-            <link>/posts/dashai-geometry-dash-ai-using-neat/</link>
-            <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
-            
-            <guid>/posts/dashai-geometry-dash-ai-using-neat/</guid>
-            <description>Geometry Dash is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.
+    </item>
+    
+    <item>
+      <title>DashAI - Geometry Dash AI using NEAT</title>
+      <link>https://t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</link>
+      <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
+      
+      <guid>https://t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</guid>
+      <description>Geometry Dash is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.
 You can stand on black tiles, red tiles kill. Simple. To create AI I used NEAT algorithm using sharpneat library. Neural network as input takes 7x7 tiles in front of player(picture below) and output is only one, jump or not.</description>
-            <content type="html"><![CDATA[<p><a href="https://store.steampowered.com/app/322170/Geometry_Dash/">Geometry Dash</a> is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.</p>
-<p><img src="/img/DashAI/MapD.png" alt="Map"></p>
-<p>You can stand on black tiles, red tiles kill. Simple.
-To create AI I used <a href="https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies">NEAT</a> algorithm using <a href="https://github.com/colgreen/sharpneat">sharpneat</a> library. Neural network as input takes 7x7 tiles in front of player(picture below) and output is only one, jump or not.</p>
-<p><img src="/img/DashAI/view.png" alt="Cat image"></p>
-<p>So, network needs 49 input neuron for each tile type(black and red for now) and neural network on start looks like this(I know, nothing impressive)</p>
-<p><img src="/img/DashAI/network1.png" alt="Network1"></p>
-<p>It&rsquo;s time to train network. Training took couple of seconds on quad-core Xeon. After 115 generations with 150 specimens in each looks like that(still nothing amazing):</p>
-<p><img src="/img/DashAI/network2.png" alt="Network2"></p>
-<p>And AI can complete level:</p>
-<p><img src="/img/DashAI/recording1.gif" alt="Recording1"></p>
-<p>Training progress(fitness is percent of level completeness):</p>
-<p><img src="/img/DashAI/progress1.png" alt="Progress1"></p>
-<p>If network performs so great let introduce another tile. Green tile - It&rsquo;s possible to jump on it but it&rsquo;s not to stand on it. I created another simple map using new tile:</p>
-<p><img src="/img/DashAI/MapE.png" alt="MapE"></p>
-<p>Let see how AI can handle new tile type. This time training took a bit longer. AI required 511 generations. What&rsquo;s interesting, network is even simpler than previously.</p>
-<p><img src="/img/DashAI/network3.png" alt="Network3"></p>
-<p><img src="/img/DashAI/recording2.gif" alt="Recording1"></p>
-<p>Training progress:</p>
-<p><img src="/img/DashAI/progress2.png" alt="Progress1"></p>
-<p>If you want to see how everything is implemented or even add something from yourself source code is available <a href="https://github.com/t4ccer/DashAI">here</a> (binaries are also available there)</p>
-<h3 id="program-usage">Program usage:</h3>
-<pre><code>Usage: DashAI [OPTIONS]
-OPIONS:
-        --train  -t (default : false) Train network
-        --play   -p (default : false) Let network play game
-        --map    -m (default : Map.bmp) Path to map
-        --output -o (default : output/foobar) Output directory
-        --help   -h (default : false) Shows this info
-</code></pre><h3 id="how-to-create-own-map">How to create own map:</h3>
-<p>When creating own map squares colors must be exactly for</p>
-<ul>
-<li>Black(ground) - #000000</li>
-<li>Red(kill) - #ff0000</li>
-<li>Green(jump in air) - #00ff00</li>
-</ul>
-<p>Note that every other color will be interpreted as air(empty). For creating map I used <a href="https://www.getpaint.net/">paint.net</a> but any other graphics program should handle it. Save map as bmp file.</p>
-]]></content>
-        </item>
-        
-    </channel>
+    </item>
+    
+  </channel>
 </rss>

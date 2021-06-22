@@ -2,18 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ESP32 on t4ccer</title>
-    <link>/tags/esp32/</link>
+    <link>https://t4ccer.com/tags/esp32/</link>
     <description>Recent content in ESP32 on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 12 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 12 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://t4ccer.com/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dister32 - Part 1</title>
-      <link>/posts/dister32-part1/</link>
+      <link>https://t4ccer.com/posts/dister32-part1/</link>
       <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/posts/dister32-part1/</guid>
+      <guid>https://t4ccer.com/posts/dister32-part1/</guid>
       <description>Introduction Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller ESP32. ESP32 has built-in wifi module so communication between modules will be fairly simple.
 ESP-32s module
 The article will be split into 3 parts.

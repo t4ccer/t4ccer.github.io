@@ -1,180 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="">
-<meta name="description" content="Prologue Card game war is very popular because of it&amp;rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.
-Possible strategies Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:
- Starting from player A&amp;rsquo;s pile Starting from player B&amp;rsquo;s pile Starting from player&amp;rsquo;s that won pile  Cards are always collected interchangeably from 2 piles so only difference is from wich to start from." />
-<meta name="keywords" content=", Card-games, Simulations" />
-<meta name="robots" content="noodp" />
-<meta name="theme-color" content="" />
-<link rel="canonical" href="/posts/simulating-card-games-war/" />
+<head>
+  <title>Simulating card games: War</title>
 
+  <meta name="description" content="">
 
-    <title>
-        
-            Simulating card games: War :: t4ccer 
-        
-    </title>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:title" content="Simulating card games: War">
+  <meta name="twitter:creator" content="t4ccer">
+  <meta name="twitter:site" content="t4ccer">
+  <meta name="twitter:image" content="https://www.t4ccer.com/img/t4logo.png">
 
+  <meta property="og:title" content="Simulating card games: War">
+  <meta property="og:image" content="https://www.t4ccer.com/img/t4logo.png">
+  <meta property="og:description" content="">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="t4ccer">
 
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+  
+  <link rel="icon" type="image/png" href="/img/favicon.ico" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
-    type="text/css">
+<html>
+<!DOCTYPE html>
+<html>
 
+<body>
+  <header class="site-header">
 
-
-<link rel="stylesheet" href="/main.min.66e02c2f30d50da60169f383ffbeb3620799cb81f0e509ddf89b662347f2f2be.css">
-
-
-
-
-
-
-<meta itemprop="name" content="Simulating card games: War">
-<meta itemprop="description" content="Prologue Card game war is very popular because of it&rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.
-Possible strategies Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:
- Starting from player A&rsquo;s pile Starting from player B&rsquo;s pile Starting from player&rsquo;s that won pile  Cards are always collected interchangeably from 2 piles so only difference is from wich to start from."><meta itemprop="datePublished" content="2020-08-04T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-08-04T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="418"><meta itemprop="image" content="/"/>
-<meta itemprop="keywords" content="Card-games,Simulations," />
-
-
-
-
-
-<meta property="twitter:description" content="">
-<meta property="twitter:title" content="Simulating card games: War">
-
-<meta property="twitter:image" content="https://www.t4ccer.com/img/t4logo.png">
-
-
-
-
-<meta property="og:title" content="Simulating card games: War">
-
-<meta property="og:type" content="article">
-<meta property="article:published_time" content="2020-08-04">
-
-<meta property="og:description" content="">
-<meta property="og:url" content="/posts/simulating-card-games-war/">
-<meta property="og:site_name" content="t4ccer">
-
-<meta property="og:image" content="https://www.t4ccer.com/img/t4logo.png">
-
-
-<meta property="og:tags" content="Card-games">
-
-<meta property="og:tags" content="Simulations">
-
-
-
-
-
-
-
-    <meta property="article:published_time" content="2020-08-04 00:00:00 &#43;0000 &#43;0000" />
-
-
-
-
-
-
-
-
-    </head>
-
-    <body class="dark-theme">
-        <div class="container">
-            <header class="header">
-    <span class="header__inner">
-        <a href="/" style="text-decoration: none;">
-    <div class="logo">
-        
-            <span class="logo__mark">></span>
-            <span class="logo__text">t4ccer/blog</span>
-            <span class="logo__cursor" style=
-                  "
-                   background-color: #00aeff;
-                   
-                   ">
-            </span>
-        
+    <div class="wrapper">
+      <a class="muted small" href="https://t4ccer.com/">t4ccer</a>
     </div>
-</a>
+  </header>
+</body>
 
+</html>
 
-        <span class="header__right">
-            
-                <nav class="menu">
-    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/posts/">Blog</a></li>
-    </ul>
-</nav>
-
-                <span class="menu-trigger">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-                    </svg>
-                </span>
-            
-
-            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
-        </span>
-    </span>
-</header>
-
-
-            <div class="content">
-                
-    <main class="post">
-
-        <div class="post-info">
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>2 minutes
-
-            
-
-            </p>
-        </div>
-
-        <article>
-            <h1 class="post-title">
-                <a href="/posts/simulating-card-games-war/">Simulating card games: War</a>
-            </h1>
-                <hr />
-                <aside id="toc">
-                <div class="toc-title">Table of Contents</div>
-                    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#prologue">Prologue</a></li>
-    <li><a href="#possible-strategies">Possible strategies</a></li>
-    <li><a href="#simulations">Simulations</a></li>
-    <li><a href="#results">Results</a>
-      <ul>
-        <li><a href="#starting-from-player-as-pile">Starting from player A&rsquo;s pile</a></li>
-        <li><a href="#starting-from-player-bs-pile">Starting from player B&rsquo;s pile</a></li>
-        <li><a href="#starting-from-players-that-won-pile">Starting from player&rsquo;s that won pile</a></li>
-      </ul>
-    </li>
-    <li><a href="#conclusion">Conclusion</a></li>
-    <li><a href="#source-code">Source code</a></li>
-  </ul>
-</nav>
-                </aside>
-                <hr />
-
-            
-
-            <div class="post-content">
-                <h2 id="prologue">Prologue</h2>
+<h1>Simulating card games: War</h1>
+<title>Simulating card games: War</title>
+<p class="post-meta"><time itemprop="datePublished">August 4, 2020</time>
+</p>
+<h2 id="prologue">Prologue</h2>
 <p><a href="https://en.wikipedia.org/wiki/War_(card_game)">Card game war</a> is very popular because of it&rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.</p>
 <h2 id="possible-strategies">Possible strategies</h2>
 <p>Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:</p>
@@ -244,70 +119,13 @@ So is there a better way of playing war? Theoretically yes, practically no.</p>
 <h2 id="source-code">Source code</h2>
 <p><a href="https://github.com/t4ccer/stats-of-war">link</a></p>
 
-            </div>
-        </article>
 
-        <hr />
-
-        <div class="post-info">
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/card-games">Card-games</a></span><span class="tag"><a href="/tags/simulations">Simulations</a></span>
-                </p>
-
-            
-        </div>
-
-        
-            <div class="pagination">
-                <div class="pagination__title">
-                    <span class="pagination__title-h">Read other posts</span>
-                    <hr />
-                </div>
-
-                <div class="pagination__buttons">
-                    
-                        <span class="button previous">
-                            <a href="/posts/extensible-irc-bot-in-haskell/">
-                                <span class="button__icon">←</span>
-                                <span class="button__text">Extensible IRC Bot in Haskell</span>
-                            </a>
-                        </span>
-                    
-
-                    
-                        <span class="button next">
-                            <a href="/posts/noisy-art/">
-                                <span class="button__text">Noisy Art - Images using noise</span>
-                                <span class="button__icon">→</span>
-                            </a>
-                        </span>
-                    
-                </div>
-            </div>
-        
-    </main>
-
-            </div>
-
-            
-                <footer class="footer">
-    <div class="footer__inner">
-        <div class="footer__content">
-            <span>copyright by t4ccer</span>
+<footer>
+    <div>
+        <h3><a href="https://t4ccer.com/posts">Back to all posts</a></h3>
     </div>
+    <hr>
+    <p>Go <a href="https://t4ccer.com//index.xml">here</a> for an RSS feed.</p>
 </footer>
 
-            
-        </div>
-
-        
-
-
-
-
-<script type="text/javascript" src="/bundle.min.59ecdc8ddd50b30e6dd7ad4a5372c3fd24a26db671cc1575443b150ceb9d4bc8e73618fb298596b5c336cf5d8c2db90bd7e72a648479e97884e5398722f962fa.js" integrity="sha512-Wezcjd1Qsw5t161KU3LD/SSibbZxzBV1RDsVDOudS8jnNhj7KYWWtcM2z12MLbkL1&#43;cqZIR56XiE5TmHIvli&#43;g=="></script>
-
-
-
-    </body>
 </html>

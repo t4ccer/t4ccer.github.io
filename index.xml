@@ -2,18 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>t4ccer</title>
-    <link>/</link>
+    <link>https://t4ccer.com/</link>
     <description>Recent content on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="https://t4ccer.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Optional record mutations in Haskell</title>
-      <link>/posts/optional-record-mutations/</link>
+      <link>https://t4ccer.com/posts/optional-record-mutations/</link>
       <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
       
-      <guid>/posts/optional-record-mutations/</guid>
+      <guid>https://t4ccer.com/posts/optional-record-mutations/</guid>
       <description>Abstract Sometimes it is required to have data type that can also represent data and data mutations. For example when receiving data through json from rest API when creating new entry all fields of data are required, but when updating entry we would like to provide only changed fields.
 Approaches Entry creation json:
 { &amp;#34;userId&amp;#34;: 1337, &amp;#34;firstName&amp;#34;: &amp;#34;John&amp;#34;, &amp;#34;lastName&amp;#34;: &amp;#34;Doe&amp;#34; } Mutation json:
@@ -22,10 +21,10 @@ Approaches Entry creation json:
     
     <item>
       <title>Handling logs and errors in Haskell</title>
-      <link>/posts/handling-logs-and-errors-in-haskell/</link>
+      <link>https://t4ccer.com/posts/handling-logs-and-errors-in-haskell/</link>
       <pubDate>Tue, 27 Oct 2020 12:00:00 +0200</pubDate>
       
-      <guid>/posts/handling-logs-and-errors-in-haskell/</guid>
+      <guid>https://t4ccer.com/posts/handling-logs-and-errors-in-haskell/</guid>
       <description>Abstract Handling logs and errors in pure and stateless programs is difficult, if we want to do it simultaneously it&amp;rsquo;s even harder, however with knowledge of some monads, and monad transformers can be done.
 I assume that you are familiar with Maybe monad, Writer monad, and Monoid concept. If not You can read about them here:
  Maybe - Haskell/Understanding monads/Maybe Writer - Writer monad Monoid - Monoid  MyLogger My goal is to create data structure that can aggregate logs, and allow for calculation to fail.</description>
@@ -33,10 +32,10 @@ I assume that you are familiar with Maybe monad, Writer monad, and Monoid concep
     
     <item>
       <title>Extensible IRC Bot in Haskell</title>
-      <link>/posts/extensible-irc-bot-in-haskell/</link>
+      <link>https://t4ccer.com/posts/extensible-irc-bot-in-haskell/</link>
       <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
       
-      <guid>/posts/extensible-irc-bot-in-haskell/</guid>
+      <guid>https://t4ccer.com/posts/extensible-irc-bot-in-haskell/</guid>
       <description>Abstract To practice usage of haskell and FP in general I decided to create simple yet powerful and extensible IRC bot using haskell.
 Usage Bot is configurable in app/Main.hs file, but example configurations are availble in src/Examples/*.hs.
 Base bot Lets look at src/Examples/Base.hs file now. File contains run function that starts IRC bot in an infinite loop, and handleEvent function that handles chat events.
@@ -45,10 +44,10 @@ module Examples.Base where import ChatEvents import ExtIrcBot run :: IO () run =
     
     <item>
       <title>Simulating card games: War</title>
-      <link>/posts/simulating-card-games-war/</link>
+      <link>https://t4ccer.com/posts/simulating-card-games-war/</link>
       <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/posts/simulating-card-games-war/</guid>
+      <guid>https://t4ccer.com/posts/simulating-card-games-war/</guid>
       <description>Prologue Card game war is very popular because of it&amp;rsquo;s simplicity. Game seems totally random but I thought that there must be better or worse way of playing, so I ran quite a few simulations to find it out.
 Possible strategies Only thing that we control during the game is the way how to collect won cards. I found out only 3 diffrent ways of collecting cards:
  Starting from player A&amp;rsquo;s pile Starting from player B&amp;rsquo;s pile Starting from player&amp;rsquo;s that won pile  Cards are always collected interchangeably from 2 piles so only difference is from wich to start from.</description>
@@ -56,10 +55,10 @@ Possible strategies Only thing that we control during the game is the way how to
     
     <item>
       <title>Noisy Art - Images using noise</title>
-      <link>/posts/noisy-art/</link>
+      <link>https://t4ccer.com/posts/noisy-art/</link>
       <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/noisy-art/</guid>
+      <guid>https://t4ccer.com/posts/noisy-art/</guid>
       <description>In this article I will try to create some kind of &amp;lsquo;art&amp;rsquo; using noise. For noise generating I am using my own packet: Noisy. Noisy implements Perlin noise, OpenSimplex noise and Worley noise. In this article I will use OpenSimplex noise only.
 Example map of OpenSimplex noise looks like that:
 At first I created grid with vectors. Direction of each vector is chosen using OpenSimplexNoise. Z axis of the noise changes for a bit every frame, so each frame vectors change direction for a little.</description>
@@ -67,10 +66,10 @@ At first I created grid with vectors. Direction of each vector is chosen using O
     
     <item>
       <title>Dister32 - Part 1</title>
-      <link>/posts/dister32-part1/</link>
+      <link>https://t4ccer.com/posts/dister32-part1/</link>
       <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/posts/dister32-part1/</guid>
+      <guid>https://t4ccer.com/posts/dister32-part1/</guid>
       <description>Introduction Dister32 is my own projects for easy managment of distributed computing on cheap but powerful microcontroller ESP32. ESP32 has built-in wifi module so communication between modules will be fairly simple.
 ESP-32s module
 The article will be split into 3 parts.
@@ -79,32 +78,22 @@ In the first part, I will describe how the cluster will work and implement the s
     
     <item>
       <title>SharpNEAT Tutorial</title>
-      <link>/posts/sharpneat-tutorial/</link>
+      <link>https://t4ccer.com/posts/sharpneat-tutorial/</link>
       <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/sharpneat-tutorial/</guid>
+      <guid>https://t4ccer.com/posts/sharpneat-tutorial/</guid>
       <description>SharpNEAT is great library for developing NEAT networks, but unfortunatly is very poorly documented, so I created some boilerplate code to kickstart Your project.
 // inputCount - Count of inout neurons // outputCount - Count of output neurons // specimenCount - Specimen count in each generation  var neatGenomeFactory = new NeatGenomeFactory(inputCount, outputCount); var genomeList = neatGenomeFactory.CreateGenomeList(specimenCount, 0); var neatParameters = new NeatEvolutionAlgorithmParameters { SpecieCount = specimenCount }; var distanceMetric = new ManhattanDistanceMetric(); var speciationStrategy = new ParallelKMeansClusteringStrategy&amp;lt;NeatGenome&amp;gt; (distanceMetric); var complexityRegulationStrategy = new NullComplexityRegulationStrategy(); var network = new NeatEvolutionAlgorithm&amp;lt;NeatGenome&amp;gt; (neatParameters, speciationStrategy, complexityRegulationStrategy); var activationScheme = NetworkActivationScheme .</description>
     </item>
     
     <item>
       <title>DashAI - Geometry Dash AI using NEAT</title>
-      <link>/posts/dashai-geometry-dash-ai-using-neat/</link>
+      <link>https://t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</link>
       <pubDate>Fri, 01 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/posts/dashai-geometry-dash-ai-using-neat/</guid>
+      <guid>https://t4ccer.com/posts/dashai-geometry-dash-ai-using-neat/</guid>
       <description>Geometry Dash is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.
 You can stand on black tiles, red tiles kill. Simple. To create AI I used NEAT algorithm using sharpneat library. Neural network as input takes 7x7 tiles in front of player(picture below) and output is only one, jump or not.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Sun, 26 Apr 2020 23:33:39 +0200</pubDate>
-      
-      <guid>/about/</guid>
-      <description>Contact me using:
- Email (t4ccer@gmail.com) Twitter Github  Blog is using awesome theme created by rhazdon, and modified by me.</description>
     </item>
     
   </channel>

@@ -2,126 +2,125 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on t4ccer</title>
-    <link>/tags/</link>
+    <link>https://t4ccer.com/tags/</link>
     <description>Recent content in Tags on t4ccer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Mar 2021 12:00:00 +0200</lastBuildDate><atom:link href="https://t4ccer.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Functional Programming</title>
-      <link>/tags/functional-programming/</link>
+      <link>https://t4ccer.com/tags/functional-programming/</link>
       <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
       
-      <guid>/tags/functional-programming/</guid>
+      <guid>https://t4ccer.com/tags/functional-programming/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Haskell</title>
-      <link>/tags/haskell/</link>
+      <link>https://t4ccer.com/tags/haskell/</link>
       <pubDate>Sun, 28 Mar 2021 12:00:00 +0200</pubDate>
       
-      <guid>/tags/haskell/</guid>
+      <guid>https://t4ccer.com/tags/haskell/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bot</title>
-      <link>/tags/bot/</link>
+      <link>https://t4ccer.com/tags/bot/</link>
       <pubDate>Mon, 19 Oct 2020 12:00:00 +0200</pubDate>
       
-      <guid>/tags/bot/</guid>
+      <guid>https://t4ccer.com/tags/bot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Card-games</title>
-      <link>/tags/card-games/</link>
+      <link>https://t4ccer.com/tags/card-games/</link>
       <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/card-games/</guid>
+      <guid>https://t4ccer.com/tags/card-games/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Simulations</title>
-      <link>/tags/simulations/</link>
+      <link>https://t4ccer.com/tags/simulations/</link>
       <pubDate>Tue, 04 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/simulations/</guid>
+      <guid>https://t4ccer.com/tags/simulations/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Art</title>
-      <link>/tags/art/</link>
+      <link>https://t4ccer.com/tags/art/</link>
       <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/tags/art/</guid>
+      <guid>https://t4ccer.com/tags/art/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Noise</title>
-      <link>/tags/noise/</link>
+      <link>https://t4ccer.com/tags/noise/</link>
       <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/tags/noise/</guid>
+      <guid>https://t4ccer.com/tags/noise/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Visualization</title>
-      <link>/tags/visualization/</link>
+      <link>https://t4ccer.com/tags/visualization/</link>
       <pubDate>Thu, 21 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/tags/visualization/</guid>
+      <guid>https://t4ccer.com/tags/visualization/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Dister</title>
-      <link>/tags/dister/</link>
+      <link>https://t4ccer.com/tags/dister/</link>
       <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/dister/</guid>
+      <guid>https://t4ccer.com/tags/dister/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ESP32</title>
-      <link>/tags/esp32/</link>
+      <link>https://t4ccer.com/tags/esp32/</link>
       <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/esp32/</guid>
+      <guid>https://t4ccer.com/tags/esp32/</guid>
       <description></description>
     </item>
     
     <item>
       <title>AI</title>
-      <link>/tags/ai/</link>
+      <link>https://t4ccer.com/tags/ai/</link>
       <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/tags/ai/</guid>
+      <guid>https://t4ccer.com/tags/ai/</guid>
       <description></description>
     </item>
     
     <item>
       <title>NEAT</title>
-      <link>/tags/neat/</link>
+      <link>https://t4ccer.com/tags/neat/</link>
       <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/tags/neat/</guid>
+      <guid>https://t4ccer.com/tags/neat/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tutorial</title>
-      <link>/tags/tutorial/</link>
+      <link>https://t4ccer.com/tags/tutorial/</link>
       <pubDate>Thu, 07 May 2020 11:39:44 +0200</pubDate>
       
-      <guid>/tags/tutorial/</guid>
+      <guid>https://t4ccer.com/tags/tutorial/</guid>
       <description></description>
     </item>
     
