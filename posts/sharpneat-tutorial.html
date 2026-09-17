@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self'; base-uri 'self'; form-action 'none'" />
+    <meta name="description" content="Tricking silicon into thinking" />
+    <title>SharpNEAT Tutorial &ndash; t4ccer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" href="../favicon.ico" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page__header">
+        <nav class="nav">
+          <h1 class="logo"><a href="../">t4ccer</a></h1>
+          <a class="active" href="../posts/">./Posts</a>
+          <a href="../">./About</a>
+        </nav>
+      </header>
+
+      <main class="page__body">
+        <header class="content__header">
+  <h1>SharpNEAT Tutorial</h1>
+</header>
+<div class="content__body">
+  <p><a href="https://github.com/colgreen/sharpneat">SharpNEAT</a> is a great library C# for developing <a href="https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies">NEAT</a> networks, but unfortunately is very poorly documented, so I created some boilerplate code to kickstart your project.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// inputCount - Count of inout neurons</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// outputCount - Count of output neurons</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">// specimenCount - Specimen count in each generation</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> neatGenomeFactory <span class="op">=</span> <span class="kw">new</span> <span class="fu">NeatGenomeFactory</span><span class="op">(</span>inputCount<span class="op">,</span> outputCount<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> genomeList <span class="op">=</span> neatGenomeFactory<span class="op">.</span><span class="fu">CreateGenomeList</span><span class="op">(</span>specimenCount<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> neatParameters <span class="op">=</span> <span class="kw">new</span> NeatEvolutionAlgorithmParameters</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    SpecieCount <span class="op">=</span> specimenCount</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> distanceMetric <span class="op">=</span> <span class="kw">new</span> <span class="fu">ManhattanDistanceMetric</span><span class="op">();</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> speciationStrategy <span class="op">=</span> <span class="kw">new</span> ParallelKMeansClusteringStrategy<span class="op">&lt;</span>NeatGenome<span class="op">&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span>distanceMetric<span class="op">);</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> complexityRegulationStrategy <span class="op">=</span> <span class="kw">new</span> <span class="fu">NullComplexityRegulationStrategy</span><span class="op">();</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> network <span class="op">=</span> <span class="kw">new</span> NeatEvolutionAlgorithm<span class="op">&lt;</span>NeatGenome<span class="op">&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span>neatParameters<span class="op">,</span> speciationStrategy<span class="op">,</span> complexityRegulationStrategy<span class="op">);</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> activationScheme <span class="op">=</span> NetworkActivationScheme</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">CreateCyclicFixedTimestepsScheme</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> genomeDecoder <span class="op">=</span> <span class="kw">new</span> <span class="fu">NeatGenomeDecoder</span><span class="op">(</span>activationScheme<span class="op">);</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> phenomeEvaluator <span class="op">=</span> <span class="kw">new</span> <span class="fu">YourPhenomeEvaluator</span><span class="op">();</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> genomeListEvaluator <span class="op">=</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> ParallelGenomeListEvaluator<span class="op">&lt;</span>NeatGenome<span class="op">,</span> IBlackBox<span class="op">&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span>genomeDecoder<span class="op">,</span> phenomeEvaluator<span class="op">,</span> parallelOptions<span class="op">);</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">Initialize</span><span class="op">(</span>genomeListEvaluator<span class="op">,</span> neatGenomeFactory<span class="op">,</span> genomeList<span class="op">);</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">//Optional</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">UpdateScheme</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">UpdateScheme</span><span class="op">(</span>logRate<span class="op">);</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">UpdateEvent</span> <span class="op">+=</span> Ea_UpdateEvent<span class="op">;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">StartContinue</span><span class="op">();</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="kw">while</span> <span class="op">(</span>network<span class="op">.</span><span class="fu">RunState</span> <span class="op">!=</span> RunState<span class="op">.</span><span class="fu">Paused</span><span class="op">)</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    Thread<span class="op">.</span><span class="fu">Sleep</span><span class="op">(</span><span class="dv">100</span><span class="op">);</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">Stop</span><span class="op">();</span></span></code></pre></div>
+<p>I know, it looks complicated, but let explain it line by line.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> neatGenomeFactory <span class="op">=</span> <span class="kw">new</span> <span class="fu">NeatGenomeFactory</span><span class="op">(</span>inputCount<span class="op">,</span> outputCount<span class="op">);</span></span></code></pre></div>
+<p>At first, create factory for initial population with specified input and output neurons.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> genomeList <span class="op">=</span> neatGenomeFactory<span class="op">.</span><span class="fu">CreateGenomeList</span><span class="op">(</span>specimenCount<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span></code></pre></div>
+<p>Then, create initial genome list with length of <code>specimenCount</code> and first generation number <code>0</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> neatParameters <span class="op">=</span> <span class="kw">new</span> NeatEvolutionAlgorithmParameters</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    SpecieCount <span class="op">=</span> specimenCount</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<p>Here create parameters for your network. Absolute minimum that you have to provide is specimen count in each generation. It should be the same as length of <code>genomeList</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> distanceMetric <span class="op">=</span> <span class="kw">new</span> <span class="fu">ManhattanDistanceMetric</span><span class="op">();</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> speciationStrategy <span class="op">=</span> <span class="kw">new</span> ParallelKMeansClusteringStrategy<span class="op">&lt;</span>NeatGenome<span class="op">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span>distanceMetric<span class="op">);</span></span></code></pre></div>
+<p>Here things start to be a bit kore tricky. To create <a href="http://en.wikipedia.org/wiki/K-means_clustering">k-means clustering method</a> you must provide <code>IDistanceMetric</code>. I used <code>ManhattanDistanceMetric</code>. You can read more about <a href="https://medium.com/analytics-vidhya/various-types-of-distance-metrics-machine-learning-cc9d4698c2da">various types of distance metrics</a>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> complexityRegulationStrategy <span class="op">=</span> <span class="kw">new</span> <span class="fu">NullComplexityRegulationStrategy</span><span class="op">();</span></span></code></pre></div>
+<p>Complexity regulation strategies reguletes if your network tend to be more simple or more complex. <code>NullComplexityRegulationStrategy</code> is just strategy that is fixed to complexifying your network. In my cases it worked best.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> network <span class="op">=</span> <span class="kw">new</span> NeatEvolutionAlgorithm<span class="op">&lt;</span>NeatGenome<span class="op">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span>neatParameters<span class="op">,</span> speciationStrategy<span class="op">,</span> complexityRegulationStrategy<span class="op">);</span></span></code></pre></div>
+<p><code>NeatEvolutionAlgorithm&lt;NeatGenome&gt;</code> is just fancy word for your neural network. Just provide already created objects and let sharpneat do magic.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> activationScheme <span class="op">=</span> NetworkActivationScheme</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">CreateCyclicFixedTimestepsScheme</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> genomeDecoder <span class="op">=</span> <span class="kw">new</span> <span class="fu">NeatGenomeDecoder</span><span class="op">(</span>activationScheme<span class="op">);</span></span></code></pre></div>
+<p>To create <code>genomeDecoder</code> you have to create <code>activationScheme</code> first.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> phenomeEvaluator <span class="op">=</span> <span class="kw">new</span> <span class="fu">YourPhenomeEvaluator</span><span class="op">();</span></span></code></pre></div>
+<p>At this moment you have to write your first own code. You have to create class that can score fitness of your network.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> YourPhenomeEvaluator <span class="op">:</span> IPhenomeEvaluator<span class="op">&lt;</span>IBlackBox<span class="op">&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">ulong</span> EvaluationCount <span class="op">=&gt;</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">bool</span> StopConditionSatisfied <span class="op">=&gt;</span> shouldEnd<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> shouldEnd <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> FitnessInfo <span class="fu">Evaluate</span><span class="op">(</span>IBlackBox phenome<span class="op">)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">//phenome.InputSignalArray[index] - input neuron array</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">//phenome.OutputSignalArray[index] - output neuron array</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="kw">new</span> <span class="fu">FitnessInfo</span><span class="op">(</span>fitness<span class="op">,</span> fitness<span class="op">);</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">Reset</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>What <code>IPhenomeEvaluator</code> should do is quite obvious but let explain it too.</p>
+<p><code>EvaluationCount</code> is count of all evaluations of your network(you don’t have to implement this unless you want to use it).</p>
+<p>When <code>StopConditionSatisfied</code> returns <code>true</code> training of your network stops. Very useful if e.g. network achieved maximum fitness.</p>
+<p><code>Evaluate</code> Method takes network as an input and returns its fitness.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> genomeListEvaluator <span class="op">=</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> ParallelGenomeListEvaluator<span class="op">&lt;</span>NeatGenome<span class="op">,</span> IBlackBox<span class="op">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span>genomeDecoder<span class="op">,</span> phenomeEvaluator<span class="op">,</span> parallelOptions<span class="op">);</span></span></code></pre></div>
+<p><code>genomeListEvaluator</code> is able to evaluate whole list of genoms, using your phenome evaluator.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">Initialize</span><span class="op">(</span>genomeListEvaluator<span class="op">,</span> neatGenomeFactory<span class="op">,</span> genomeList<span class="op">);</span></span></code></pre></div>
+<p>Initialize already created network with <code>genomeListEvaluator</code>, <code>neatGenomeFactory</code> and <code>genomeList</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Optional</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">UpdateScheme</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">UpdateScheme</span><span class="op">(</span>logRate<span class="op">);</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">UpdateEvent</span> <span class="op">+=</span> Ea_UpdateEvent<span class="op">;</span></span></code></pre></div>
+<p>Each <code>logRate</code> generations <code>Ea_UpdateEvent</code> will be called.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">Ea_UpdateEvent</span><span class="op">(</span><span class="dt">object</span> sender<span class="op">,</span> EventArgs e<span class="op">)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">var</span> network <span class="op">=</span> <span class="op">(</span>NeatEvolutionAlgorithm<span class="op">&lt;</span>NeatGenome<span class="op">&gt;)</span>sender<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    Console<span class="op">.</span><span class="fu">WriteLine</span><span class="op">(</span>$<span class="st">&quot;Generation={network.CurrentGeneration}</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        bestFitness<span class="op">={</span>network<span class="op">.</span><span class="fu">Statistics</span><span class="op">.</span><span class="fu">_maxFitness</span><span class="op">:</span>N6<span class="op">}</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        meanFitness<span class="op">={</span>network<span class="op">.</span><span class="fu">Statistics</span><span class="op">.</span><span class="fu">_meanFitness</span><span class="op">:</span>N6<span class="op">}</span><span class="st">&quot;);</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><code>Ea_UpdateEvent</code> can e.g. print network progress.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">StartContinue</span><span class="op">();</span></span></code></pre></div>
+<p>Start your network</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode csharp"><code class="sourceCode cs"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">while</span> <span class="op">(</span>network<span class="op">.</span><span class="fu">RunState</span> <span class="op">!=</span> RunState<span class="op">.</span><span class="fu">Paused</span><span class="op">)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    Thread<span class="op">.</span><span class="fu">Sleep</span><span class="op">(</span><span class="dv">100</span><span class="op">);</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>network<span class="op">.</span><span class="fu">Stop</span><span class="op">();</span></span></code></pre></div>
+<p>Wait until network is paused(e.g. when <code>YourPhenomeEvaluator.StopConditionSatisfied</code> returns <code>true</code>). Training runs in another thread so you have to block main thread, otherwise program will exit.</p>
+<p>Those settings worked best for me, it won’t be optimal for every project so don’t worry to experiment with settings and parameters on your own.</p>
+<p>I hope it will help you creating your own awesome machine learning project.</p>
+<p>NOTE: I’m not a professional data scientist.</p>
+</div>
+
+      </main>
+
+      <aside class="page__aside">
+        <h1 class="aside__title">t4ccer</h1>
+        <p class="aside__description">Tricking silicon into thinking</p>
+        <div class="aside__social">
+          <ul>
+<li><a href="https://github.com/t4ccer" target="_blank" rel="me" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a></li>
+<li><a href="https://orcid.org/0009-0000-7485-0786" target="_blank" rel="me" aria-label="ORCID" title="ORCID"><i class="ai ai-orcid" aria-hidden="true"></i></a></li>
+<li><a href="https://arxiv.org/search/math?searchtype=author&amp;query=Maciosowski,+T" target="_blank" rel="me" aria-label="arXiv" title="arXiv"><i class="ai ai-arxiv" aria-hidden="true"></i></a></li>
+<li><a href="https://twitter.com/t4ccer" target="_blank" rel="me" aria-label="Twitter" title="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></a></li>
+<li><a href="https://mathstodon.xyz/@t4ccer" target="_blank" rel="me" aria-label="Mastodon" title="Mastodon"><i class="fa-brands fa-mastodon" aria-hidden="true"></i></a></li>
+<li><a href="https://www.linkedin.com/in/tomasz-maciosowski" target="_blank" rel="me" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+        
+        <hr />
+        <p class="aside__date">2020-05-07</p>
+        
+      </aside>
+
+      <footer class="page__footer">
+        <p>Powered by <a href="https://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>. Theme based on <a href="https://github.com/joeroe/risotto" target="_blank">risotto</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

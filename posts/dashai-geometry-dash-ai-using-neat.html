@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self'; base-uri 'self'; form-action 'none'" />
+    <meta name="description" content="Tricking silicon into thinking" />
+    <title>DashAI - Geometry Dash AI using NEAT &ndash; t4ccer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" href="../favicon.ico" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page__header">
+        <nav class="nav">
+          <h1 class="logo"><a href="../">t4ccer</a></h1>
+          <a class="active" href="../posts/">./Posts</a>
+          <a href="../">./About</a>
+        </nav>
+      </header>
+
+      <main class="page__body">
+        <header class="content__header">
+  <h1>DashAI - Geometry Dash AI using NEAT</h1>
+</header>
+<div class="content__body">
+  <p><a href="https://store.steampowered.com/app/322170/Geometry_Dash/">Geometry Dash</a> is platformer game that I really like, but I suck at it, so I will try to create AI to play it for me. At first, I created simple geometry dash clone and following map.</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/MapD.png" alt="Map" /></p>
+<p>You can stand on black tiles, red tiles kill. Simple.
+To create AI I used <a href="https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies">NEAT</a> algorithm using <a href="https://github.com/colgreen/sharpneat">sharpneat</a> library. Neural network as input takes 7x7 tiles in front of player(picture below) and output is only one, jump or not.</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/view.png" alt="View" /></p>
+<p>So, network needs 49 input neuron for each tile type(black and red for now) and neural network on start looks like this(I know, nothing impressive)</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/network1.png" alt="Network1" /></p>
+<p>It’s time to train network. Training took couple of seconds on quad-core Xeon. After 115 generations with 150 specimens in each looks like that(still nothing amazing):</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/network2.png" alt="Network2" /></p>
+<p>And AI can complete level:</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/recording1.gif" alt="Recording1" /></p>
+<p>Training progress(fitness is percent of level completeness):</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/progress1.png" alt="Progress1" /></p>
+<p>If network performs so great let introduce another tile. Green tile - It’s possible to jump on it but it’s not to stand on it. I created another simple map using new tile:</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/MapE.png" alt="MapE" /></p>
+<p>Let see how AI can handle new tile type. This time training took a bit longer. AI required 511 generations. What’s interesting, network is even simpler than previously.</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/network3.png" alt="Network3" /></p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/recording2.gif" alt="Recording1" /></p>
+<p>Training progress:</p>
+<p><img src="../img/dashai-geometry-dash-ai-using-neat/progress2.png" alt="Progress1" /></p>
+<p>If you want to see how everything is implemented or even add something from yourself source code and binaries are available in the <a href="https://github.com/t4ccer/DashAI">DashAI repository</a></p>
+<h3 id="program-usage">Program usage:</h3>
+<pre><code>Usage: DashAI [OPTIONS]
+OPTIONS:
+        --train  -t (default : false) Train network
+        --play   -p (default : false) Let network play game
+        --map    -m (default : Map.bmp) Path to map
+        --output -o (default : output/foobar) Output directory
+        --help   -h (default : false) Shows this info</code></pre>
+<h3 id="how-to-create-own-map">How to create own map:</h3>
+<p>When creating own map squares colors must be exactly for
+- Black(ground) - #000000
+- Red(kill) - #ff0000
+- Green(jump in air) - #00ff00</p>
+<p>Note that every other color will be interpreted as air(empty). For creating map I used <a href="https://www.getpaint.net/">paint.net</a> but any other graphics program should handle it. Save map as bmp file.</p>
+</div>
+
+      </main>
+
+      <aside class="page__aside">
+        <h1 class="aside__title">t4ccer</h1>
+        <p class="aside__description">Tricking silicon into thinking</p>
+        <div class="aside__social">
+          <ul>
+<li><a href="https://github.com/t4ccer" target="_blank" rel="me" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a></li>
+<li><a href="https://orcid.org/0009-0000-7485-0786" target="_blank" rel="me" aria-label="ORCID" title="ORCID"><i class="ai ai-orcid" aria-hidden="true"></i></a></li>
+<li><a href="https://arxiv.org/search/math?searchtype=author&amp;query=Maciosowski,+T" target="_blank" rel="me" aria-label="arXiv" title="arXiv"><i class="ai ai-arxiv" aria-hidden="true"></i></a></li>
+<li><a href="https://twitter.com/t4ccer" target="_blank" rel="me" aria-label="Twitter" title="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></a></li>
+<li><a href="https://mathstodon.xyz/@t4ccer" target="_blank" rel="me" aria-label="Mastodon" title="Mastodon"><i class="fa-brands fa-mastodon" aria-hidden="true"></i></a></li>
+<li><a href="https://www.linkedin.com/in/tomasz-maciosowski" target="_blank" rel="me" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+        
+        <hr />
+        <p class="aside__date">2020-05-01</p>
+        
+      </aside>
+
+      <footer class="page__footer">
+        <p>Powered by <a href="https://jaspervdj.be/hakyll/" target="_blank">Hakyll</a>. Theme based on <a href="https://github.com/joeroe/risotto" target="_blank">risotto</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>
