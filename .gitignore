@@ -1,0 +1,5 @@
+/.direnv/
+/.pre-commit-config.yaml
+/_cache/
+/dist-newstyle/
+/_site/

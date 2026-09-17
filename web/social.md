@@ -1,0 +1,6 @@
+- [GitHub](https://github.com/t4ccer){.fa-brands .fa-github}
+- [ORCID](https://orcid.org/0009-0000-7485-0786){.ai .ai-orcid}
+- [arXiv](https://arxiv.org/search/math?searchtype=author&query=Maciosowski,+T){.ai .ai-arxiv}
+- [Twitter](https://twitter.com/t4ccer){.fa-brands .fa-twitter}
+- [Mastodon](https://mathstodon.xyz/@t4ccer){.fa-brands .fa-mastodon}
+- [LinkedIn](https://www.linkedin.com/in/tomasz-maciosowski){.fa-brands .fa-linkedin}

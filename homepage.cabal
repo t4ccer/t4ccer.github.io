@@ -1,0 +1,101 @@
+cabal-version:      3.0
+name:               homepage
+version:            1.0
+homepage:           https://t4ccer.com
+license:            AGPL-3.0-or-later
+license-file:       LICENSE
+author:             t4ccer
+maintainer:         t4ccer@gmail.com
+category:           Web
+build-type:         Simple
+
+common lang
+  build-depends:      base
+  ghc-options:
+    -Werror -Weverything -Wno-unused-packages -Wno-implicit-prelude
+    -Wno-missing-safe-haskell-mode -Wno-unsafe
+    -Wno-missed-specialisations -Wno-all-missed-specialisations
+    -Wno-missing-local-signatures -Wno-monomorphism-restriction
+    -fprint-explicit-foralls -fprint-explicit-kinds
+    -fno-show-error-context -fhide-source-paths
+
+  default-extensions:
+    ApplicativeDo
+    BangPatterns
+    BinaryLiterals
+    ConstrainedClassMethods
+    ConstraintKinds
+    DataKinds
+    DefaultSignatures
+    DeriveAnyClass
+    DeriveDataTypeable
+    DeriveFoldable
+    DeriveFunctor
+    DeriveGeneric
+    DeriveLift
+    DeriveTraversable
+    DerivingStrategies
+    DerivingVia
+    DoAndIfThenElse
+    DuplicateRecordFields
+    EmptyCase
+    EmptyDataDecls
+    EmptyDataDeriving
+    ExistentialQuantification
+    ExplicitForAll
+    FlexibleContexts
+    FlexibleInstances
+    ForeignFunctionInterface
+    GADTSyntax
+    GeneralisedNewtypeDeriving
+    HexFloatLiterals
+    ImplicitPrelude
+    ImportQualifiedPost
+    InstanceSigs
+    KindSignatures
+    LambdaCase
+    MagicHash
+    MonomorphismRestriction
+    MultiParamTypeClasses
+    MultiWayIf
+    NamedFieldPuns
+    NamedWildCards
+    NoStarIsType
+    NumericUnderscores
+    OverloadedLabels
+    OverloadedRecordDot
+    OverloadedStrings
+    PackageImports
+    PartialTypeSignatures
+    PatternGuards
+    PatternSynonyms
+    PolyKinds
+    PostfixOperators
+    QualifiedDo
+    RankNTypes
+    RecordWildCards
+    RelaxedPolyRec
+    RoleAnnotations
+    ScopedTypeVariables
+    StandaloneDeriving
+    StandaloneKindSignatures
+    TupleSections
+    TypeApplications
+    TypeFamilies
+    TypeFamilyDependencies
+    TypeOperators
+    TypeSynonymInstances
+    UndecidableInstances
+    ViewPatterns
+
+executable homepage
+    import:           lang
+    main-is:          Main.hs
+    other-modules:    Social
+    build-depends:
+      , hakyll ^>=4.17
+      , pandoc
+      , pandoc-types
+      , text
+    hs-source-dirs:   src
+    default-language: Haskell2010

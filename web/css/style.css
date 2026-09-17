@@ -1,0 +1,254 @@
+/* Palette from https://github.com/t4ccer/monokaish.el */
+:root {
+  --monokaish-black: #222222;
+  --monokaish-dark-gray: #333333;
+  --monokaish-gray: #666666;
+  --monokaish-light-gray: #aaaaaa;
+  --monokaish-white: #dddddd;
+  --monokaish-orange: #fd971f;
+  --monokaish-yellow: #e6db74;
+  --monokaish-purple: #9d65ff;
+  --monokaish-blue: #4eb4fa;
+  --monokaish-red: #f92672;
+  --monokaish-red-dull: #c15d81;
+  --monokaish-green: #a7e22e;
+  --monokaish-green-dull: #98b758;
+
+  --bg: var(--monokaish-black);
+  --off-bg: var(--monokaish-dark-gray);
+  --fg: var(--monokaish-white);
+  --off-fg: var(--monokaish-light-gray);
+  --muted: var(--monokaish-light-gray);
+  --bright: var(--monokaish-white);
+  --link: var(--monokaish-blue);
+  --hover: var(--monokaish-purple);
+  --accent: var(--monokaish-green);
+  --font-monospace: "Fira Mono", "DejaVu Sans Mono", monospace;
+}
+
+html {
+  background-color: var(--bg);
+  /* Keep the layout width identical whether or not the page is tall enough to scroll */
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  padding: 0 1rem;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-monospace);
+  font-size: 16px;
+  line-height: 1.5rem;
+}
+
+.page {
+  max-width: 64rem;
+  margin: 1rem auto;
+  display: grid;
+  grid-template-areas:
+    "header"
+    "body"
+    "aside"
+    "footer";
+  grid-template-columns: minmax(0, 1fr);
+  grid-row-gap: 2rem;
+}
+
+@media (min-width: 45rem) {
+  .page {
+    grid-template-areas:
+      "header header"
+      "body   aside"
+      "footer footer";
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    grid-column-gap: 2rem;
+  }
+}
+
+.page__header {
+  grid-area: header;
+}
+
+.page__body {
+  grid-area: body;
+  background-color: var(--off-bg);
+  box-shadow: 0 0 0 1rem var(--off-bg);
+  overflow-wrap: break-word;
+}
+
+.page__aside {
+  grid-area: aside;
+  color: var(--off-fg);
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+}
+
+.page__footer {
+  grid-area: footer;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+.nav .logo {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.nav .logo:before {
+  content: none;
+}
+
+.nav .logo a {
+  color: var(--accent);
+  background-color: var(--off-bg);
+  padding: 0.25rem 0.5rem;
+}
+
+.nav a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--hover);
+}
+
+.aside__title {
+  margin: 0;
+  color: var(--bright);
+}
+
+.aside__title:before {
+  content: none;
+}
+
+.aside__description {
+  margin: 0;
+}
+
+.aside__social ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+  display: flex;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.aside__social a {
+  color: var(--fg);
+}
+
+.aside__social a:hover {
+  color: var(--hover);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1rem;
+  margin: 1.5rem 0 0 0;
+  font-weight: 600;
+  color: var(--bright);
+}
+
+h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
+  margin: 0;
+}
+
+h1:before { content: "# "; }
+h2:before { content: "## "; }
+h3:before { content: "### "; }
+h4:before { content: "#### "; }
+h5:before { content: "##### "; }
+h6:before { content: "###### "; }
+
+h1:before, h2:before, h3:before, h4:before, h5:before, h6:before {
+  color: var(--muted);
+}
+
+h1:first-child {
+  margin-top: 0;
+}
+
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--hover);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--muted);
+  margin: 1rem 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+code {
+  color: var(--bright);
+}
+
+pre {
+  background-color: var(--bg);
+  padding: 1rem;
+  overflow-x: auto;
+  line-height: 1.25rem;
+}
+
+pre code {
+  color: var(--fg);
+}
+
+blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--muted);
+  color: var(--off-fg);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid var(--muted);
+  padding: 0.25rem 0.5rem;
+}
+
+.posts {
+  list-style: none;
+  padding: 0;
+}
+
+.posts__date {
+  color: var(--muted);
+  margin-right: 1rem;
+}
+
+/* Pandoc syntax highlighting, following monokaish's font-lock faces */
+.sourceCode .kw, .sourceCode .cf, .sourceCode .bu { color: var(--monokaish-red); }
+.sourceCode .dt, .sourceCode .cn, .sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: var(--monokaish-blue); }
+.sourceCode .st, .sourceCode .ch, .sourceCode .ss { color: var(--monokaish-orange); }
+.sourceCode .co, .sourceCode .do { color: var(--monokaish-light-gray); }
+.sourceCode .fu { color: var(--monokaish-green); }
+.sourceCode .va { color: var(--monokaish-white); }
+.sourceCode .al, .sourceCode .er { color: var(--monokaish-red); font-weight: bold; }
+.sourceCode .wa { color: var(--monokaish-purple); font-weight: bold; }
