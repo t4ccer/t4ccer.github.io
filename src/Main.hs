@@ -1,22 +1,24 @@
 module Main (main) where
 
 import Data.List (isPrefixOf)
-import Hakyll.Core.Compiler (Compiler, loadAll, loadBody, makeItem)
+import Hakyll.Core.Compiler (Compiler, getRoute, loadAll, loadBody, makeItem)
 import Hakyll.Core.Configuration (Configuration (destinationDirectory, providerDirectory, storeDirectory, tmpDirectory), defaultConfiguration)
 import Hakyll.Core.File (copyFileCompiler)
 import Hakyll.Core.Identifier (toFilePath)
 import Hakyll.Core.Identifier.Pattern ((.||.))
 import Hakyll.Core.Item (Item (itemIdentifier))
-import Hakyll.Core.Routes (idRoute, setExtension)
+import Hakyll.Core.Routes (gsubRoute, idRoute, setExtension)
 import Hakyll.Core.Rules (Rules, compile, create, match, route)
 import Hakyll.Main (hakyllWith)
 import Hakyll.Web.CompressCss (compressCssCompiler)
+import Hakyll.Web.Html (toUrl)
 import Hakyll.Web.Html.RelativizeUrls (relativizeUrls)
 import Hakyll.Web.Pandoc (defaultHakyllReaderOptions, defaultHakyllWriterOptions, pandocCompilerWith)
 import Hakyll.Web.Template (loadAndApplyTemplate, templateBodyCompiler)
 import Hakyll.Web.Template.Context (Context, boolField, constField, dateField, defaultContext, field, listField)
 import Hakyll.Web.Template.List (recentFirst)
 import Social (socialCompiler)
+import System.FilePath (takeDirectory)
 import Text.Pandoc.Extensions (Extension (Ext_implicit_figures), disableExtension)
 import Text.Pandoc.Options (ReaderOptions (readerExtensions))
 
@@ -39,8 +41,19 @@ markdownCompiler = pandocCompilerWith readerOptions defaultHakyllWriterOptions
             { readerExtensions = disableExtension Ext_implicit_figures (readerExtensions defaultHakyllReaderOptions)
             }
 
+postUrlField :: String -> Context a
+postUrlField key = field key $ \i -> do
+    let pageId = itemIdentifier i
+        empty' = fail $ "No route url found for item " ++ show pageId
+    fmap (maybe empty' (toUrl . takeDirectory)) $ getRoute pageId
+
 postCtx :: Context String
-postCtx = dateField "date" "%Y-%m-%d" <> defaultContext
+postCtx =
+    mconcat
+        [ dateField "date" "%Y-%m-%d"
+        , postUrlField "url"
+        , defaultContext
+        ]
 
 applyDefault :: Context String -> Item String -> Compiler (Item String)
 applyDefault ctx item =
@@ -71,7 +84,7 @@ main = hakyllWith config $ do
         compile $ markdownCompiler >>= applyDefault defaultContext
 
     match "posts/*.md" $ do
-        route $ setExtension "html"
+        route $ gsubRoute ".md" (const "/index.html")
         compile $
             markdownCompiler
                 >>= loadAndApplyTemplate "templates/post.html" postCtx
