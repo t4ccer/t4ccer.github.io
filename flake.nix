@@ -56,7 +56,7 @@
               pkgs.ghc
               pkgs.haskell-language-server
               pkgs.cabal-install
-              pkgs.python314
+              pkgs.miniserve
             ];
           };
         };
